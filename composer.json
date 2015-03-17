@@ -1,10 +1,10 @@
 {
-    "name": "jp3cki/yii2-extra-validator",
+    "name": "jp3cki/yii2-jp-phone-validator",
     "type": "yii2-extension",
-    "description": "Validators for Yii2",
-    "keywords": ["yii2", "extension", "validator", "recaptcha", "twitter"],
+    "description": "Phone number validator for Yii Framework2",
+    "keywords": ["yii2", "extension", "validator", "phone", "tel", "telephone", "japan"],
     "license": "MIT",
-    "version": "1.3.0",
+    "version": "1.0.0",
     "authors": [
         {
             "name": "AIZAWA Hina",
@@ -13,11 +13,8 @@
     ],
     "require": {
         "php":  ">=5.4.0",
-        "ext-intl": "*",
         "ext-pcre": "*",
         "ext-mbstring": "*",
-        "jp3cki/mb_str_replace": "~4.0",
-        "php-curl-class/php-curl-class": "~2.1",
         "yiisoft/yii2": "~2.0"
     },
     "require-dev": {
@@ -29,11 +26,11 @@
     },
     "autoload": {
         "psr-4": {
-            "jp3cki\\yii2\\validators\\": "src",
-            "jp3cki\\yii2\\validators\\testsrc\\": "test/src"
+            "jp3cki\\yii2\\jpphone\\": "src",
+            "jp3cki\\yii2\\jpphone\\test\\": "test/src"
         }
     },
     "extra": {
-        "bootstrap": "jp3cki\\yii2\\validators\\internal\\Bootstrap"
+        "bootstrap": "jp3cki\\yii2\\jpphone\\internal\\Bootstrap"
     }
 }

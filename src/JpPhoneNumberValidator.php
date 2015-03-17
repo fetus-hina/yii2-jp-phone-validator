@@ -3,10 +3,10 @@
  * @author AIZAWA Hina <hina@bouhime.com>
  * @copyright 2015 by AIZAWA Hina <hina@bouhime.com>
  * @license https://github.com/fetus-hina/yii2-extra-validator/blob/master/LICENSE MIT
- * @since 1.2.0
+ * @since 1.0.0
  */
 
-namespace jp3cki\yii2\validators;
+namespace jp3cki\yii2\jpphone;
 
 use Yii;
 use yii\validators\Validator;
@@ -53,7 +53,7 @@ class JpPhoneNumberValidator extends Validator
     {
         parent::init();
         if ($this->message === null) {
-            $this->message = Yii::t('jp3ckivalidator', '{attribute} is not a valid phone number.');
+            $this->message = Yii::t('jp3ckiJpPhone', '{attribute} is not a valid phone number.');
         }
     }
 
@@ -77,15 +77,15 @@ class JpPhoneNumberValidator extends Validator
     private function isValid($number)
     {
         $classMap = [
-            self::FLAG_MOBILE       => 'jp3cki\yii2\validators\internal\jpphone\Mobi',
-            self::FLAG_IP_PHONE     => 'jp3cki\yii2\validators\internal\jpphone\Ip',
-            self::FLAG_FREE_DIAL    => 'jp3cki\yii2\validators\internal\jpphone\FreeDial',
-            self::FLAG_FREE_ACCESS  => 'jp3cki\yii2\validators\internal\jpphone\FreeAccess',
-            self::FLAG_NAV_DIAL     => 'jp3cki\yii2\validators\internal\jpphone\NavDial',
-            self::FLAG_DIAL_Q2      => 'jp3cki\yii2\validators\internal\jpphone\Q2',
-            self::FLAG_PAGER        => 'jp3cki\yii2\validators\internal\jpphone\Pager',
+            self::FLAG_MOBILE       => 'jp3cki\yii2\jpphone\internal\impl\Mobi',
+            self::FLAG_IP_PHONE     => 'jp3cki\yii2\jpphone\internal\impl\Ip',
+            self::FLAG_FREE_DIAL    => 'jp3cki\yii2\jpphone\internal\impl\FreeDial',
+            self::FLAG_FREE_ACCESS  => 'jp3cki\yii2\jpphone\internal\impl\FreeAccess',
+            self::FLAG_NAV_DIAL     => 'jp3cki\yii2\jpphone\internal\impl\NavDial',
+            self::FLAG_DIAL_Q2      => 'jp3cki\yii2\jpphone\internal\impl\Q2',
+            self::FLAG_PAGER        => 'jp3cki\yii2\jpphone\internal\impl\Pager',
             // 固定電話はコストが高いので最後に検査する
-            self::FLAG_LANDLINE     => 'jp3cki\yii2\validators\internal\jpphone\Landline',
+            self::FLAG_LANDLINE     => 'jp3cki\yii2\jpphone\internal\impl\Landline',
         ];
         foreach ($classMap as $classFlag => $className) {
             if (($this->types & $classFlag) === $classFlag) {

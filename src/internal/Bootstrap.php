@@ -6,7 +6,7 @@
  * @since 1.0.0
  */
 
-namespace jp3cki\yii2\validators\internal;
+namespace jp3cki\yii2\jpphone\internal;
 
 use Yii;
 use yii\base\Application;
@@ -16,13 +16,13 @@ class Bootstrap implements BootstrapInterface
 {
     public function bootstrap($app)
     {
-        Yii::setAlias('@jp3ckivalidatormessages', __DIR__ . '/../../messages');
+        Yii::setAlias('@jp3ckiJpPhoneMessages', __DIR__ . '/../../messages');
         $i18n = $app->i18n;
-        if (!isset($i18n->translations['jp3ckivalidator'])) {
-            $i18n->translations['jp3ckivalidator'] = [
+        if (!isset($i18n->translations['jp3ckiJpPhone'])) {
+            $i18n->translations['jp3ckiJpPhone'] = [
                 'class' => 'yii\i18n\PhpMessageSource',
                 'sourceLanguage' => 'en-US',
-                'basePath' => '@jp3ckivalidatormessages',
+                'basePath' => '@jp3ckiJpPhoneMessages',
             ];
         }
     }

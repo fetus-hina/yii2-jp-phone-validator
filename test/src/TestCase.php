@@ -1,5 +1,5 @@
 <?php
-namespace jp3cki\yii2\validators\testsrc;
+namespace jp3cki\yii2\jpphone\test;
 
 use PHPUnit_Framework_TestCase;
 use Yii;
@@ -36,7 +36,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
                 'vendorPath' => __DIR__ . '/../../vendor',
                 'language' => $language,
                 'bootstrap' => [
-                    'jp3cki\yii2\validators\internal\Bootstrap',
+                    'jp3cki\yii2\jpphone\internal\Bootstrap',
                 ],
             ], $config)
         );
@@ -44,6 +44,6 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
 
     protected function destroyApplication()
     {
-        \Yii::$app = null;
+        Yii::$app = null;
     }
 }
