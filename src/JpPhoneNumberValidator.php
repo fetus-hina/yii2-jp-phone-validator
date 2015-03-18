@@ -28,7 +28,7 @@ class JpPhoneNumberValidator extends Validator
     const FLAG_FREE_ACCESS  = 0x0010;
     /** ナビダイヤル(0570) */
     const FLAG_NAV_DIAL     = 0x0020;
-    /** 
+    /**
      * ダイヤルQ2(0990)
      * @deprecated
      */
