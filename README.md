@@ -3,6 +3,8 @@ yii2-jp-phone-validator
 
 日本の電話番号をチェックする Yii Framework2 用のバリデータです。
 
+[![License](https://poser.pugx.org/jp3cki/yii2-jp-phone-validator/license.svg)](https://packagist.org/packages/jp3cki/yii2-jp-phone-validator)
+[![Latest Stable Version](https://poser.pugx.org/jp3cki/yii2-jp-phone-validator/v/stable.svg)](https://packagist.org/packages/jp3cki/yii2-jp-phone-validator)
 [![Build Status](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator.svg?branch=master)](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/?branch=master)
 [![Code Climate](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator/badges/gpa.svg)](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator)
@@ -17,9 +19,6 @@ yii2-jp-phone-validator
 
 インストール
 ------------
-
-この通りやってもまだだめです。
-現時点ではまだ [yii2-extra-validator](https://github.com/fetus-hina/yii2-extra-validator) を使ってください。
 
 1. [Composer](https://getcomposer.org/) をダウンロードして使用可能な状態にします。
 2. 必要であれば Yii Framework2 のプロジェクトを作成します。
