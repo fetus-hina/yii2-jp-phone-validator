@@ -28,7 +28,10 @@ class JpPhoneNumberValidator extends Validator
     const FLAG_FREE_ACCESS  = 0x0010;
     /** ナビダイヤル(0570) */
     const FLAG_NAV_DIAL     = 0x0020;
-    /** ダイヤルQ2(0990) */
+    /** 
+     * ダイヤルQ2(0990)
+     * @deprecated
+     */
     const FLAG_DIAL_Q2      = 0x0040;
     /** ポケベル(020) */
     const FLAG_PAGER        = 0x0080;
@@ -82,7 +85,6 @@ class JpPhoneNumberValidator extends Validator
             self::FLAG_FREE_DIAL    => 'jp3cki\yii2\jpphone\internal\impl\FreeDial',
             self::FLAG_FREE_ACCESS  => 'jp3cki\yii2\jpphone\internal\impl\FreeAccess',
             self::FLAG_NAV_DIAL     => 'jp3cki\yii2\jpphone\internal\impl\NavDial',
-            self::FLAG_DIAL_Q2      => 'jp3cki\yii2\jpphone\internal\impl\Q2',
             self::FLAG_PAGER        => 'jp3cki\yii2\jpphone\internal\impl\Pager',
             // 固定電話はコストが高いので最後に検査する
             self::FLAG_LANDLINE     => 'jp3cki\yii2\jpphone\internal\impl\Landline',

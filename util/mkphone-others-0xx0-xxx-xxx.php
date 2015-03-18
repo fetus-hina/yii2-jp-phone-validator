@@ -10,7 +10,6 @@ $excels = [
     'http://www.soumu.go.jp/main_content/000124112.xls',    // 0120
     'http://www.soumu.go.jp/main_content/000124114.xls',    // 0800
     'http://www.soumu.go.jp/main_content/000124113.xls',    // 0570
-    'http://www.soumu.go.jp/main_content/000124118.xls',    // 0990
 ];
 
 foreach ($excels as $url) {
