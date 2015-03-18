@@ -1,7 +1,13 @@
 yii2-jp-phone-validator
 =======================
 
-相沢陽菜先生の次回作にご期待ください。
+日本の電話番号をチェックする Yii Framework2 用のバリデータです。
+
+[![Build Status](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator.svg?branch=master)](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator)
+[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/?branch=master)
+[![Code Climate](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator/badges/gpa.svg)](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator)
+[![Test Coverage](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator/badges/coverage.svg)](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator)
+
 
 動作環境
 --------
@@ -36,7 +42,7 @@ Model class example:
 namespace app\models;
 
 use yii\base\Model;
-use jp3cki\yii2\validators\JpPhoneValidator;
+use jp3cki\yii2\jpphone\JpPhoneValidator;
 
 class YourCustomForm extends Model
 {
@@ -62,7 +68,6 @@ class YourCustomForm extends Model
   * `FLAG_FREE_DIAL`: `0120` のフリーダイヤルを受け入れます。ハイフンの位置は`0120-000-000`か`0120-00-0000`を受け入れるようになっています。 `FLAG_FREE_ACCESS` も参照してください。
   * `FLAG_FREE_ACCESS`: `0800` のフリーアクセスを受け入れます。 `FLAG_FREE_DIAL` も参照してください。
   * `FLAG_NAV_DIAL`: `0570` のナビダイヤルを受け入れます。
-  * `FLAG_DIAL_Q2`: `0990` のダイヤルQ2を受け入れます。ダイヤルQ2は既にサービスを終了したため利用することはないでしょう。（このライブラリからもじきに削除されます）
   * `FLAG_PAGER`: `020` のポケットベルを受け入れます。
 
 利便性のために次の定数も準備されています。
@@ -82,7 +87,7 @@ class YourCustomForm extends Model
 ライセンス
 ----------
 
-[The MIT License](https://github.com/fetus-hina/yii2-extra-validator/blob/master/LICENSE).
+[The MIT License](https://github.com/fetus-hina/yii2-jp-phone-validator/blob/master/LICENSE).
 
 ```
 The MIT License (MIT)
