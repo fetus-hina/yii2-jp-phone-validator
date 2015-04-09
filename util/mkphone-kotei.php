@@ -3,7 +3,7 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Curl\Curl;
 
-define('PUT_BASE_DIR', __DIR__ . '/../data/landline');
+define('PUT_BASE_DIR', __DIR__ . '/../data/phone/landline');
 
 // 総務省の電話番号リストの在りか
 $excels = [
