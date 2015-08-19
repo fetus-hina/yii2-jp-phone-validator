@@ -26,7 +26,7 @@ function downloadExcel($url)
     if ($curl->error) {
         throw new Exception('Could not download ' . $url);
     }
-    return $curl->raw_response;
+    return $curl->rawResponse;
 }
 
 function parseExcel($binary)
