@@ -3,6 +3,8 @@ require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Curl\Curl;
 
+ini_set('memory_limit', '512M');
+
 define('PUT_BASE_DIR', __DIR__ . '/../data/phone/landline');
 
 // 総務省の電話番号リストの在りか
