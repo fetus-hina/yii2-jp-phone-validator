@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "6bda4c7c1a2222c4cfb366fd2747bda7",
+    "content-hash": "50cf88d3440983ca630bac9c4703d858",
     "packages": [
         {
             "name": "bower-asset/jquery",
@@ -474,7 +474,7 @@
                 "codeclimate",
                 "coverage"
             ],
-            "time": "2017-06-01T13:19:55+00:00"
+            "time": "2017-06-01 13:19:55"
         },
         {
             "name": "doctrine/instantiator",
