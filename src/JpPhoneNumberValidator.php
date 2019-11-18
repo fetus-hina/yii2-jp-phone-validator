@@ -18,29 +18,29 @@ use yii\validators\Validator;
 class JpPhoneNumberValidator extends Validator
 {
     /** 固定電話 */
-    const FLAG_LANDLINE     = 0x0001;
+    public const FLAG_LANDLINE     = 0x0001;
     /** 携帯電話 */
-    const FLAG_MOBILE       = 0x0002;
+    public const FLAG_MOBILE       = 0x0002;
     /** IP電話(050) */
-    const FLAG_IP_PHONE     = 0x0004;
+    public const FLAG_IP_PHONE     = 0x0004;
     /** フリーダイヤル(0120) */
-    const FLAG_FREE_DIAL    = 0x0008;
+    public const FLAG_FREE_DIAL    = 0x0008;
     /** フリーアクセス(0800) */
-    const FLAG_FREE_ACCESS  = 0x0010;
+    public const FLAG_FREE_ACCESS  = 0x0010;
     /** ナビダイヤル(0570) */
-    const FLAG_NAV_DIAL     = 0x0020;
+    public const FLAG_NAV_DIAL     = 0x0020;
     /**
      * ダイヤルQ2(0990)
      * @deprecated
      */
-    const FLAG_DIAL_Q2      = 0x0040;
+    public const FLAG_DIAL_Q2      = 0x0040;
     /** ポケベル(020) */
-    const FLAG_PAGER        = 0x0080;
+    public const FLAG_PAGER        = 0x0080;
 
     /** 一般的な番号の組み合わせ */
-    const FLAG_CONSUMERS    = 0x0007;
+    public const FLAG_CONSUMERS    = 0x0007;
     /** すべての組み合わせ */
-    const FLAG_ALL          = 0x00ff;
+    public const FLAG_ALL          = 0x00ff;
 
     /** @var int validとみなす電話番号の種類(FLAG_*の組み合わせ) */
     public $types = self::FLAG_CONSUMERS;
