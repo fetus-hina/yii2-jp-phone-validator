@@ -1,14 +1,14 @@
 <?php
+
 namespace jp3cki\yii2\jpphone\test;
 
-use PHPUnit_Framework_TestCase;
 use Yii;
 use yii\base\NotSupprtException;
 use yii\helpers\ArrayHelper;
 
-abstract class TestCase extends PHPUnit_Framework_TestCase
+abstract class TestCase extends \PHPUnit\Framework\TestCase
 {
-    public static function setUpBeforeClass()
+    public static function setUpBeforeClass(): void
     {
         $vendorDir = __DIR__ . '/../../vendor';
         $vendorAutoload = $vendorDir . '/autoload.php';
@@ -21,7 +21,7 @@ abstract class TestCase extends PHPUnit_Framework_TestCase
         Yii::setAlias('@vendor', $vendorDir);
     }
 
-    protected function tearDown()
+    protected function tearDown(): void
     {
         parent::tearDown();
         $this->destroyApplication();

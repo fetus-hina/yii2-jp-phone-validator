@@ -7,21 +7,19 @@
     "authors": [
         {
             "name": "AIZAWA Hina",
-            "email": "hina@bouhime.com"
+            "email": "hina@fetus.jp"
         }
     ],
     "require": {
-        "php":  ">=5.4.0",
+        "php": ">= 7.1.0",
         "ext-pcre": "*",
         "yiisoft/yii2": "~2.0"
     },
     "require-dev": {
-        "codeclimate/php-test-reporter": "dev-master",
-        "php-curl-class/php-curl-class": "~4.6",
-        "phpmd/phpmd": "~2.2",
+        "php-curl-class/php-curl-class": "^8.6.1",
         "phpoffice/phpexcel": "~1.8",
-        "phpunit/phpunit": "4.*",
-        "squizlabs/php_codesniffer": "2.*"
+        "phpunit/phpunit": "*",
+        "squizlabs/php_codesniffer": "^3.5.2"
     },
     "autoload": {
         "psr-4": {
@@ -31,5 +29,10 @@
     },
     "extra": {
         "bootstrap": "jp3cki\\yii2\\jpphone\\internal\\Bootstrap"
+    },
+    "config": {
+        "platform": {
+            "php": "7.1.33"
+        }
     }
 }

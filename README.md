@@ -7,14 +7,12 @@ yii2-jp-phone-validator
 [![Latest Stable Version](https://poser.pugx.org/jp3cki/yii2-jp-phone-validator/v/stable.svg)](https://packagist.org/packages/jp3cki/yii2-jp-phone-validator)
 [![Build Status](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator.svg?branch=master)](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator)
 [![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/?branch=master)
-[![Code Climate](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator/badges/gpa.svg)](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator)
-[![Test Coverage](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator/badges/coverage.svg)](https://codeclimate.com/github/fetus-hina/yii2-jp-phone-validator)
 
 
 動作環境
 --------
 
-- PHP 5.4 以上
+- PHP 7.1 以上
 - Yii framework 2.0
 
 インストール
@@ -91,7 +89,7 @@ class YourCustomForm extends Model
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015 AIZAWA Hina <hina@bouhime.com>
+Copyright (c) 2015-2019 AIZAWA Hina <hina@fetus.jp>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -112,16 +110,8 @@ OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
 SOFTWARE.
 ```
 
-貢献
-----
+非互換の更新
+------------
 
-パッチ・issue の報告を歓迎します。
-
-- このレポジトリを fork して、issue や feature ごとに別々のブランチを作成した上で作業をおこなってください。（master ブランチ上で作業すると Pull Request を作成・運用する際の妨げになります）
-- 必ずテストを作成し、`make test` を実行してください。
-- コーディングスタイルは PSR-2 です（メソッド・プロパティ・変数は lowerCamelCase、クラスは UpperCamelCase でお願いします）
-    - `make check-style` を行うと簡単な静的解析とコーディングスタイルチェックが行えます。
-    - 簡単な違反は `make fix-style` で自動修正できます。
-- Pull Request は issue や feature ごとに作成してください。（1feature:1ブランチ:1PRになるはずです）
-- Pull Request 作成時に行われる Travis-CI や他のフックによるチェック結果に目を通し、必要であれば修正をおこなってください。
-    - 原則としてチェックを通らない状態では取り込みは行いません。
+  - v1.0 → v2.0
+    - PHPの要求バージョンを引き上げました。コード上の非互換はありません。
