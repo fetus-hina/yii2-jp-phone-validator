@@ -30,7 +30,8 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
 
     protected function mockApplication($language = 'en-US', $config = [], $appClass = '\yii\console\Application')
     {
-        new $appClass(ArrayHelper::merge([
+        new $appClass(ArrayHelper::merge(
+            [
                 'id' => 'testapp',
                 'basePath' => __DIR__ . '/..',
                 'vendorPath' => __DIR__ . '/../../vendor',
@@ -38,8 +39,9 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
                 'bootstrap' => [
                     'jp3cki\yii2\jpphone\internal\Bootstrap',
                 ],
-            ], $config)
-        );
+            ],
+            $config
+        ));
     }
 
     protected function destroyApplication()

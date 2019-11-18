@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author AIZAWA Hina <hina@fetus.jp>
  * @copyright 2015 by AIZAWA Hina <hina@fetus.jp>

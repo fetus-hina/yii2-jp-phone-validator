@@ -1,4 +1,5 @@
 <?php
+
 /**
  * @author AIZAWA Hina <hina@bouhime.com>
  * @copyright 2015 by AIZAWA Hina <hina@bouhime.com>
@@ -16,7 +17,7 @@ abstract class FreeDialLike extends Base
     protected function isValidFormat($number)
     {
         $firstPart = $this->getFirstPart();
-        return !!preg_match('/^' . $firstPart .'(?:(?:-(?:\d{3}-\d{3}|\d{2}-\d{4}))|\d{6})$/', $number);
+        return !!preg_match('/^' . $firstPart . '(?:(?:-(?:\d{3}-\d{3}|\d{2}-\d{4}))|\d{6})$/', $number);
     }
 
     protected function isAssignedNumber($number)
