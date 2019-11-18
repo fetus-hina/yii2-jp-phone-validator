@@ -1,7 +1,9 @@
 <?php
+
 require_once(__DIR__ . '/../vendor/autoload.php');
 
 use Curl\Curl;
+use PhpOffice\PhpSpreadsheet\IOFactory;
 
 ini_set('memory_limit', '512M');
 
@@ -43,7 +45,7 @@ function parseExcel($binary)
     $tmppath = tempnam(sys_get_temp_dir(), 'xls-');
     try {
         file_put_contents($tmppath, $binary);
-        $reader = PHPExcel_IOFactory::createReader('Excel5');
+        $reader = IOFactory::createReader('Xls');
         $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($tmppath);
         @unlink($spreadsheet);
