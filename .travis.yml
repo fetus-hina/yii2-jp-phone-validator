@@ -21,6 +21,4 @@ install:
   - travis_retry composer install --prefer-dist --no-interaction
 
 script:
-  - find . -type f -name "*.php" | grep -v vendor | xargs -n 1 php -l
-  - make check-style
   - make test
