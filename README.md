@@ -5,8 +5,6 @@ yii2-jp-phone-validator
 
 [![License](https://poser.pugx.org/jp3cki/yii2-jp-phone-validator/license.svg)](https://packagist.org/packages/jp3cki/yii2-jp-phone-validator)
 [![Latest Stable Version](https://poser.pugx.org/jp3cki/yii2-jp-phone-validator/v/stable.svg)](https://packagist.org/packages/jp3cki/yii2-jp-phone-validator)
-[![Build Status](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator.svg?branch=master)](https://travis-ci.org/fetus-hina/yii2-jp-phone-validator)
-[![Scrutinizer Code Quality](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/badges/quality-score.png?b=master)](https://scrutinizer-ci.com/g/fetus-hina/yii2-jp-phone-validator/?branch=master)
 
 
 動作環境
@@ -89,7 +87,7 @@ class YourCustomForm extends Model
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015-2019 AIZAWA Hina <hina@fetus.jp>
+Copyright (c) 2015-2021 AIZAWA Hina <hina@fetus.jp>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
