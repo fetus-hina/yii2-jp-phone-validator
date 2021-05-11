@@ -90,8 +90,10 @@ function saveData(string $start2digit, array $data): void
         mkdir(dirname($filepath1), 0755, true);
     }
     $json = json_encode(array_map(
-        fn($shigai) => ltrim((string)$shigai, '_'),
-        array_keys($data),
+        function (string $shigai): string {
+            return ltrim($shigai, '_');
+        },
+        array_keys($data)
     ));
     file_put_contents($filepath1, gzencode($json, 9, FORCE_GZIP));
     foreach ($data as $shigai_ => $shinaiList) {
