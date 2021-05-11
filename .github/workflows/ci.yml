@@ -56,7 +56,7 @@ jobs:
         run: 'composer install --prefer-dist'
 
       - name: 'Run PHPCS'
-        run: 'vendor/bin/phpcs --standard=PSR12 src test'
+        run: 'vendor/bin/phpcs'
 
   phpTest:
     name: 'PHP test (PHP ${{ matrix.envs.php }})'
