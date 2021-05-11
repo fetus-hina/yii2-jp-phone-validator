@@ -1,15 +1,19 @@
 <?php
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+declare(strict_types=1);
 
 use Curl\Curl;
 use PhpOffice\PhpSpreadsheet\IOFactory;
+use PhpOffice\PhpSpreadsheet\Spreadsheet;
+use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
+
+require_once(__DIR__ . '/../vendor/autoload.php');
 
 define('PUT_BASE_DIR', __DIR__ . '/../data/phone/others');
 
 // 総務省の電話番号リストの在りか
 $excels = [
-    'http://www.soumu.go.jp/main_content/000124105.xls',    // 020
+    'https://www.soumu.go.jp/main_content/000697571.xlsx',  // 0204 発信者課金ポケベル
 ];
 
 foreach ($excels as $url) {
@@ -18,7 +22,7 @@ foreach ($excels as $url) {
     saveData($start, $data);
 }
 
-function downloadExcel($url)
+function downloadExcel(string $url): string
 {
     echo "Downloading $url ...\n";
     $curl = new Curl();
@@ -29,16 +33,16 @@ function downloadExcel($url)
     return $curl->rawResponse;
 }
 
-function parseExcel($binary)
+function parseExcel(string $binary): Spreadsheet
 {
     echo "Parsing Excel...\n";
     $tmppath = tempnam(sys_get_temp_dir(), 'xls-');
     try {
         file_put_contents($tmppath, $binary);
-        $reader = IOFactory::createReader('Xls');
+        $reader = IOFactory::createReader('Xlsx');
         $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($tmppath);
-        @unlink($spreadsheet);
+        @unlink($tmppath);
         return $spreadsheet;
     } catch (Exception $e) {
         @unlink($tmppath);
@@ -46,22 +50,23 @@ function parseExcel($binary)
     }
 }
 
-function convertSheet($sheet)
+function convertSheet(Worksheet $sheet): array
 {
     echo "Converting...\n";
     $key = null;
     $ret = [];
     $rowCount = $sheet->getHighestRow();
     for ($y = 1; $y <= $rowCount; ++$y) {
-        if (preg_match('/^0\d+$/', $sheet->getCell("A{$y}")->getValue())) {
+        if (preg_match('/^0\d+$/', (string)$sheet->getCell("A{$y}")->getValue())) {
             break;
         }
     }
     for (; $y <= $rowCount; ++$y) {
-        $prefix = trim($sheet->getCell("A{$y}")->getValue());
+        $prefix = trim((string)$sheet->getCell("A{$y}")->getValue());
         for ($x = 0; $x <= 9; ++$x) {
             $cell = chr(ord('B') + $x) . $y;
-            if (trim($sheet->getCell($cell)->getValue()) !== '') {
+            $cellValue = trim((string)$sheet->getCell($cell)->getValue());
+            if ($cellValue !== '' && $cellValue !== '使用不可') {
                 $number = $prefix . (string)$x;
                 if ($key === null) {
                     $key = substr($number, 0, 3); // 020
@@ -75,12 +80,13 @@ function convertSheet($sheet)
     return [$key, $ret];
 }
 
-function saveData($start3digit, $data)
+function saveData(string $start3digit, array $data): void
 {
     $filepath = PUT_BASE_DIR . '/' . $start3digit . '.json.gz';
     if (!file_exists(dirname($filepath))) {
         mkdir(dirname($filepath), 0755, true);
     }
+    sort($data);
     $json = json_encode($data);
     file_put_contents($filepath, gzencode($json, 9, FORCE_GZIP));
 }
