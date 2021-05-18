@@ -28,29 +28,29 @@ jobs:
 
       - name: 'Run Updator'
         run: |
-          echo ::group::Remove old data
+          echo "::group::Remove old data"
           rm -rf data/phone/*
-          echo ::endgroup::
+          echo "::endgroup::"
 
-          echo ::group::Update data (landline)
+          echo "::group::Update data (landline)"
           php util/mkphone-kotei.php
-          echo ::endgroup::
+          echo "::endgroup::"
 
-          echo ::group::Update data (mobile phone)
+          echo "::group::Update data (mobile phone)"
           php util/mkphone-mobile.php
-          echo ::endgroup::
+          echo "::endgroup::"
 
-          echo ::group::Update data (IP phone)
+          echo "::group::Update data (IP phone)"
           php util/mkphone-ip.php
-          echo ::endgroup::
+          echo "::endgroup::"
 
-          echo ::group::Update data (pocket bell)
+          echo "::group::Update data (pocket bell)"
           php util/mkphone-others-0x0-xxxx-xxxx.php
-          echo ::endgroup::
+          echo "::endgroup::"
 
-          echo ::group::Update data (freedial etc)
+          echo "::group::Update data (freedial etc)"
           php util/mkphone-others-0xx0-xxx-xxx.php
-          echo ::endgroup::
+          echo "::endgroup::"
 
       - name: 'Check changed'
         run: |
@@ -80,4 +80,3 @@ jobs:
           reviewers: 'fetus-hina'
           signoff: false
           title: 'Update update'
-
