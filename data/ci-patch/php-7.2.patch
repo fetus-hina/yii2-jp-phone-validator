@@ -1,0 +1,11 @@
+--- a/test/unit/JpPhoneTest.php
++++ b/test/unit/JpPhoneTest.php
+@@ -9,7 +9,7 @@ use yii\base\DynamicModel;
+ 
+ class JpPhoneTest extends TestCase
+ {
+-    public function setUp()
++    public function setUp(): void
+     {
+         parent::setUp();
+         $this->mockApplication();
