@@ -64,7 +64,9 @@ jobs:
           php-version: '8.0'
 
       - name: 'Install Composer dependencies'
-        run: 'composer install --prefer-dist'
+        run: |
+          composer config --unset platform.php
+          composer install --prefer-dist
 
       - name: 'Run PHPCS'
         run: 'vendor/bin/phpcs'
@@ -106,7 +108,9 @@ jobs:
           php-version: '${{ matrix.envs.php }}'
 
       - name: 'Install dependencies'
-        run: 'composer install --prefer-dist'
+        run: |
+          composer config --unset platform.php
+          composer install --prefer-dist
 
       - name: 'Run test on PHP ${{ matrix.envs.php }}'
         continue-on-error: '${{ matrix.envs.experimental }}'
