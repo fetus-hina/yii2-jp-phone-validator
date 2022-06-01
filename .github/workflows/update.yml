@@ -1,32 +1,29 @@
----
 name: 'Automatic Database Updator'
-
-on:
+'on':
   schedule:
-    - cron: '43 9 * * *'
-
+    -
+      cron: '43 9 * * *'
 jobs:
   update:
     name: 'Update database'
-
-    runs-on: 'ubuntu-20.04'
-
+    runs-on: ubuntu-20.04
     steps:
-      - name: 'Check out the source'
-        uses: 'actions/checkout@v2'
+      -
+        name: 'Check out the source'
+        uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
-      - name: 'Use PHP 8.0'
+      -
+        name: 'Use PHP 8.0'
         run: |
           sudo update-alternatives --set php /usr/bin/php8.0
           php -v
-
-      - name: 'Install dependencies'
+      -
+        name: 'Install dependencies'
         run: |
           composer install --prefer-dist
-
-      - name: 'Run Updator'
+      -
+        name: 'Run Updator'
         run: |
           echo "::group::Remove old data"
           rm -rf data/phone/*
@@ -51,8 +48,8 @@ jobs:
           echo "::group::Update data (freedial etc)"
           php util/mkphone-others-0xx0-xxx-xxx.php
           echo "::endgroup::"
-
-      - name: 'Check changed'
+      -
+        name: 'Check changed'
         run: |
           git add data/phone
           git update-index -q --refresh
@@ -63,20 +60,20 @@ jobs:
             echo "Something changed"
             echo "changed=1" >> $GITHUB_ENV
           fi
-
-      - name: 'Create Pull Request'
-        if: "${{ env.changed == '1' }}"
-        uses: 'peter-evans/create-pull-request@v3'
+      -
+        name: 'Create Pull Request'
+        if: '${{ env.changed == ''1'' }}'
+        uses: peter-evans/create-pull-request@v3
         with:
-          assignees: 'fetus-hina'
+          assignees: fetus-hina
           author: 'AIZAWA Hina <hina@fetus.jp>'
           body: 'This is an automated pull-request'
-          branch: 'autoupdate-database'
+          branch: autoupdate-database
           commit-message: 'Update database'
           committer: 'GitHub <noreply@github.com>'
           delete-branch: true
           draft: false
-          labels: 'database'
-          reviewers: 'fetus-hina'
+          labels: database
+          reviewers: fetus-hina
           signoff: false
           title: 'Update update'
