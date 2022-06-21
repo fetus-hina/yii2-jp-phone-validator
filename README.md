@@ -63,7 +63,7 @@ class YourCustomForm extends Model
   * `FLAG_FREE_DIAL`: `0120` のフリーダイヤルを受け入れます。ハイフンの位置は`0120-000-000`か`0120-00-0000`を受け入れるようになっています。 `FLAG_FREE_ACCESS` も参照してください。
   * `FLAG_FREE_ACCESS`: `0800` のフリーアクセスを受け入れます。 `FLAG_FREE_DIAL` も参照してください。
   * `FLAG_NAV_DIAL`: `0570` のナビダイヤルを受け入れます。
-  * `FLAG_PAGER`: `020` のポケットベルを受け入れます。
+  * `FLAG_PAGER`: （廃止）
 
 利便性のために次の定数も準備されています。
 

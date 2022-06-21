@@ -41,10 +41,6 @@ jobs:
           php util/mkphone-ip.php
           echo "::endgroup::"
 
-          echo "::group::Update data (pocket bell)"
-          php util/mkphone-others-0x0-xxxx-xxxx.php
-          echo "::endgroup::"
-
           echo "::group::Update data (freedial etc)"
           php util/mkphone-others-0xx0-xxx-xxx.php
           echo "::endgroup::"

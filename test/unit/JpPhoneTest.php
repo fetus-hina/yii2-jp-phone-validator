@@ -174,13 +174,13 @@ class JpPhoneTest extends TestCase
             [false, Target::FLAG_NAV_DIAL, false, '0570-000-123'],
             [false, Target::FLAG_NAV_DIAL, false, '0570-00-0123'],
 
-            // ポケベル
-            [true,  Target::FLAG_PAGER, null, '02046201234'],
-            [true,  Target::FLAG_PAGER, null, '020-4620-1234'],
+            // ポケベル(死亡)
+            [false, Target::FLAG_PAGER, null, '02046201234'],
+            [false, Target::FLAG_PAGER, null, '020-4620-1234'],
             [false, Target::FLAG_PAGER, null, '020-46201234'],
             [false, Target::FLAG_PAGER, true, '02046201234'],
-            [true,  Target::FLAG_PAGER, true, '020-4620-1234'],
-            [true,  Target::FLAG_PAGER, false, '02046201234'],
+            [false, Target::FLAG_PAGER, true, '020-4620-1234'],
+            [false, Target::FLAG_PAGER, false, '02046201234'],
             [false, Target::FLAG_PAGER, false, '020-4620-1234'],
 
             // Q2(死亡)
@@ -200,7 +200,6 @@ class JpPhoneTest extends TestCase
             [Target::FLAG_MOBILE, '08010091234'],
             [Target::FLAG_MOBILE, '07050191234'],
             [Target::FLAG_NAV_DIAL, '0570000123'],
-            [Target::FLAG_PAGER, '02046201234'],
         ];
     }
 }

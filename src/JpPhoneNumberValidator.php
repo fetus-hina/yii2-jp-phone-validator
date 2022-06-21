@@ -34,7 +34,10 @@ class JpPhoneNumberValidator extends Validator
      * @deprecated
      */
     public const FLAG_DIAL_Q2      = 0x0040;
-    /** ポケベル(020) */
+    /**
+     * ポケベル(020-4)
+     * @deprecated
+     */
     public const FLAG_PAGER        = 0x0080;
 
     /** 一般的な番号の組み合わせ */
@@ -86,7 +89,6 @@ class JpPhoneNumberValidator extends Validator
             self::FLAG_FREE_DIAL    => 'jp3cki\yii2\jpphone\internal\impl\FreeDial',
             self::FLAG_FREE_ACCESS  => 'jp3cki\yii2\jpphone\internal\impl\FreeAccess',
             self::FLAG_NAV_DIAL     => 'jp3cki\yii2\jpphone\internal\impl\NavDial',
-            self::FLAG_PAGER        => 'jp3cki\yii2\jpphone\internal\impl\Pager',
             // 固定電話はコストが高いので最後に検査する
             self::FLAG_LANDLINE     => 'jp3cki\yii2\jpphone\internal\impl\Landline',
         ];
