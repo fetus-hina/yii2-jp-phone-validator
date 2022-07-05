@@ -72,4 +72,4 @@ jobs:
           labels: database
           reviewers: fetus-hina
           signoff: false
-          title: 'Update update'
+          title: 'Update database'
