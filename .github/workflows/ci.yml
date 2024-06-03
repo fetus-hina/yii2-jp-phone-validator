@@ -93,10 +93,6 @@ jobs:
         with:
           php-version: '${{ matrix.envs.php }}'
       -
-        name: 'Apply patches'
-        run: |
-          php util/apply-patch-for-test.php
-      -
         name: 'Install dependencies'
         run: |
           composer config --unset platform.php
