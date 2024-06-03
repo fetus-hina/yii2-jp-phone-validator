@@ -10,8 +10,8 @@ yii2-jp-phone-validator
 動作環境
 --------
 
-- PHP 7.1 以上
-- Yii framework 2.0
+- PHP 7.3 以上
+- Yii framework ~2.0.50
 
 インストール
 ------------
@@ -87,7 +87,7 @@ class YourCustomForm extends Model
 ```
 The MIT License (MIT)
 
-Copyright (c) 2015-2022 AIZAWA Hina <hina@fetus.jp>
+Copyright (c) 2015-2024 AIZAWA Hina <hina@fetus.jp>
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -110,6 +110,9 @@ SOFTWARE.
 
 非互換の更新
 ------------
+
+  - v2.0 → v3.0
+    - PHPの要求バージョン 7.3 に引き上げました。コード上の非互換はありません。
 
   - v1.0 → v2.0
     - PHPの要求バージョンを引き上げました。コード上の非互換はありません。

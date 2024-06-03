@@ -9,7 +9,7 @@ use yii\base\DynamicModel;
 
 class JpPhoneTest extends TestCase
 {
-    public function setUp()
+    public function setUp(): void
     {
         parent::setUp();
         $this->mockApplication();
