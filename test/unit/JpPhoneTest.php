@@ -7,7 +7,7 @@ use jp3cki\yii2\jpphone\JpPhoneNumberValidator as Target;
 use jp3cki\yii2\jpphone\test\TestCase;
 use yii\base\DynamicModel;
 
-class JpPhoneTest extends TestCase
+final class JpPhoneTest extends TestCase
 {
     public function setUp(): void
     {
@@ -72,7 +72,7 @@ class JpPhoneTest extends TestCase
         $this->assertTrue($o->hasErrors());
     }
 
-    public function numberProvider()
+    public static function numberProvider()
     {
         return [
             [true,  Target::FLAG_FREE_DIAL, null,  '0120123456'],
@@ -189,7 +189,7 @@ class JpPhoneTest extends TestCase
         ];
     }
 
-    public function flagProvider()
+    public static function flagProvider()
     {
         return [
             [Target::FLAG_FREE_DIAL, '0120123456'],

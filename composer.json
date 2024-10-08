@@ -11,16 +11,16 @@
         }
     ],
     "require": {
-        "php": ">= 7.3.0",
+        "php": ">= 8.1",
         "ext-pcre": "*",
-        "yiisoft/yii2": "^2.0.50"
+        "yiisoft/yii2": "^2.0.51"
     },
     "require-dev": {
-        "php-curl-class/php-curl-class": "^9.19.2",
+        "php-curl-class/php-curl-class": "^11.0.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
-        "phpoffice/phpspreadsheet": "^1.25.2",
-        "phpunit/phpunit": ">=9.6.19",
-        "squizlabs/php_codesniffer": "^3.10.1"
+        "phpoffice/phpspreadsheet": "^3.3.0",
+        "phpunit/phpunit": ">=10.5.35",
+        "squizlabs/php_codesniffer": "^3.10.3"
     },
     "autoload": {
         "psr-4": {
@@ -33,7 +33,7 @@
     },
     "config": {
         "platform": {
-            "php": "7.3.33"
+            "php": "8.1.30"
         },
         "allow-plugins": {
             "yiisoft/yii2-composer": true

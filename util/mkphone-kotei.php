@@ -28,7 +28,7 @@ $excels = [
 
 foreach ($excels as $url) {
     $spreadsheet = parseExcel(downloadExcel($url));
-    list($start, $data) = convertSheet($spreadsheet->getActiveSheet());
+    [$start, $data] = convertSheet($spreadsheet->getActiveSheet());
     saveData($start, $data);
 }
 
@@ -67,9 +67,9 @@ function convertSheet(Worksheet $sheet): array
     $ret = [];
     $rowCount = $sheet->getHighestRow();
     for ($y = 1; $y <= $rowCount; ++$y) {
-        if ($sheet->getCell("G{$y}")->getValue() === '使用中') {
-            $shigai = $sheet->getCell("D{$y}")->getValue();
-            $shinai = $sheet->getCell("E{$y}")->getValue();
+        if ($sheet->getCell("F{$y}")->getValue() === '使用中') {
+            $shigai = $sheet->getCell("C{$y}")->getValue();
+            $shinai = $sheet->getCell("D{$y}")->getValue();
             if ($key === null) {
                 $key = substr($shigai, 0, 2);
             }
