@@ -34,19 +34,27 @@ yii2-jp-phone-validator
 
 Model class example:
 ```php
+
+declare(strict_types=1);
+
 namespace app\models;
 
-use yii\base\Model;
+use Override;
 use jp3cki\yii2\jpphone\JpPhoneValidator;
+use yii\base\Model;
 
-class YourCustomForm extends Model
+final class YourCustomForm extends Model
 {
-    public $value;
+    public ?string $value;
 
+    /**
+     * @inheritdoc
+     */
+    #[Override]
     public function rules()
     {
         return [
-            [['value'], JpPhoneValidator::className(),
+            [['value'], JpPhoneValidator::class,
                 'types' => JpPhoneValidator::FLAG_CONSUMERS, // 意味は後述
                 'hyphen' => null, // 意味は後述
             ],
