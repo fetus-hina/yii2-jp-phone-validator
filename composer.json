@@ -1,9 +1,17 @@
 {
     "name": "jp3cki/yii2-jp-phone-validator",
-    "type": "yii2-extension",
     "description": "Phone number validator for Yii Framework2",
-    "keywords": ["yii2", "extension", "validator", "phone", "tel", "telephone", "japan"],
     "license": "MIT",
+    "type": "yii2-extension",
+    "keywords": [
+        "yii2",
+        "extension",
+        "validator",
+        "phone",
+        "tel",
+        "telephone",
+        "japan"
+    ],
     "authors": [
         {
             "name": "AIZAWA Hina",
@@ -16,33 +24,35 @@
         "yiisoft/yii2": "^2.0.51"
     },
     "require-dev": {
+        "ergebnis/composer-normalize": "^2.45",
         "php-curl-class/php-curl-class": "^11.0.1",
         "phpcompatibility/php-compatibility": "^9.3.5",
         "phpoffice/phpspreadsheet": "^3.9.0",
         "phpunit/phpunit": ">=10.5.35",
         "squizlabs/php_codesniffer": "^3.11.3"
     },
+    "repositories": [
+        {
+            "type": "composer",
+            "url": "https://asset-packagist.org"
+        }
+    ],
     "autoload": {
         "psr-4": {
             "jp3cki\\yii2\\jpphone\\": "src",
             "jp3cki\\yii2\\jpphone\\test\\": "test/src"
         }
     },
-    "extra": {
-        "bootstrap": "jp3cki\\yii2\\jpphone\\internal\\Bootstrap"
-    },
     "config": {
+        "allow-plugins": {
+            "ergebnis/composer-normalize": true,
+            "yiisoft/yii2-composer": true
+        },
         "platform": {
             "php": "8.1.30"
-        },
-        "allow-plugins": {
-            "yiisoft/yii2-composer": true
         }
     },
-    "repositories": [
-        {
-            "type": "composer",
-            "url": "https://asset-packagist.org"
-        }
-    ]
+    "extra": {
+        "bootstrap": "jp3cki\\yii2\\jpphone\\internal\\Bootstrap"
+    }
 }
