@@ -10,12 +10,12 @@
 namespace jp3cki\yii2\jpphone\internal\impl;
 
 /**
- * Mobile phones (090-xxxx-xxxx, 080-, 070-)
+ * Mobile phones (090-xxxx-xxxx, 080-, 070-, 060-)
  */
 class Mobi extends MobiLike
 {
     protected function getFirstPart()
     {
-        return ['090', '080', '070'];
+        return ['090', '080', '070', '060'];
     }
 }

@@ -160,6 +160,15 @@ final class JpPhoneTest extends TestCase
             [true,  Target::FLAG_MOBILE, true, '070-5019-1234'],
             [true,  Target::FLAG_MOBILE, false, '07050191234'],
             [false, Target::FLAG_MOBILE, false, '070-5019-1234'],
+            // 060
+            [true,  Target::FLAG_MOBILE, null, '06010001234'],
+            [true,  Target::FLAG_MOBILE, null, '060-1000-1234'],
+            [false, Target::FLAG_MOBILE, null, '060-10001234'],
+            [false, Target::FLAG_MOBILE, null, '060-100-01234'],
+            [false, Target::FLAG_MOBILE, true, '06010001234'],
+            [true,  Target::FLAG_MOBILE, true, '060-1000-1234'],
+            [true,  Target::FLAG_MOBILE, false, '06010001234'],
+            [false, Target::FLAG_MOBILE, false, '060-1000-1234'],
 
             // ナビダイヤル
             [true,  Target::FLAG_NAV_DIAL, null, '0570000123'],
@@ -199,6 +208,7 @@ final class JpPhoneTest extends TestCase
             [Target::FLAG_MOBILE, '09010091234'],
             [Target::FLAG_MOBILE, '08010091234'],
             [Target::FLAG_MOBILE, '07050191234'],
+            [Target::FLAG_MOBILE, '06010001234'],
             [Target::FLAG_NAV_DIAL, '0570000123'],
         ];
     }
