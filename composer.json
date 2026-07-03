@@ -22,6 +22,7 @@
         "php": ">= 8.2",
         "ext-pcre": "*",
         "symfony/polyfill-php83": "^1.38.2",
+        "symfony/polyfill-php84": "^1.38.1",
         "yiisoft/yii2": "^2.0.55"
     },
     "require-dev": {

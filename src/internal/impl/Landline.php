@@ -13,6 +13,7 @@ namespace jp3cki\yii2\jpphone\internal\impl;
 
 use Override;
 
+use function array_find;
 use function implode;
 use function in_array;
 use function preg_match;
@@ -68,13 +69,10 @@ final class Landline extends Base
     private function findShigai(string $number): string|false
     {
         $shigaiList = $this->loadShigaiList(substr($number, 0, 2));
-        foreach ($shigaiList as $shigai) {
-            if ($shigai === substr($number, 0, strlen($shigai))) {
-                return $shigai;
-            }
-        }
-
-        return false;
+        return array_find(
+            $shigaiList,
+            static fn(string $shigai): bool => $shigai === substr($number, 0, strlen($shigai)),
+        ) ?? false;
     }
 
     /**
