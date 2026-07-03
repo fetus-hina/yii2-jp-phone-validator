@@ -81,12 +81,11 @@ final class Landline extends Base
     private function loadShigaiList(string $prefix2): array
     {
         $list = $this->loadDataFile('landline/' . $prefix2 . '.json.gz');
-        usort($list, function (string $lhs, string $rhs): int {
-            if (($tmp = strlen($rhs) - strlen($lhs)) !== 0) { // 長い順
-                return $tmp;
-            }
-            return strcmp($lhs, $rhs);
-        });
+        // 長い順、同じ長さなら辞書順
+        usort(
+            $list,
+            static fn(string $lhs, string $rhs): int => (strlen($rhs) - strlen($lhs)) ?: strcmp($lhs, $rhs),
+        );
 
         return $list;
     }
