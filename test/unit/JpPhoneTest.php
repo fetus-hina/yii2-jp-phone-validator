@@ -182,19 +182,6 @@ final class JpPhoneTest extends TestCase
             [true,  Target::FLAG_NAV_DIAL, false, '0570000123'],
             [false, Target::FLAG_NAV_DIAL, false, '0570-000-123'],
             [false, Target::FLAG_NAV_DIAL, false, '0570-00-0123'],
-
-            // ポケベル(死亡)
-            [false, Target::FLAG_PAGER, null, '02046201234'],
-            [false, Target::FLAG_PAGER, null, '020-4620-1234'],
-            [false, Target::FLAG_PAGER, null, '020-46201234'],
-            [false, Target::FLAG_PAGER, true, '02046201234'],
-            [false, Target::FLAG_PAGER, true, '020-4620-1234'],
-            [false, Target::FLAG_PAGER, false, '02046201234'],
-            [false, Target::FLAG_PAGER, false, '020-4620-1234'],
-
-            // Q2(死亡)
-            [false, Target::FLAG_DIAL_Q2, null, '0990504123'],
-            [false, Target::FLAG_DIAL_Q2, null, '0990-504-123'],
         ];
     }
 

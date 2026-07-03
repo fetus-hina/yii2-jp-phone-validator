@@ -13,9 +13,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '8.1'
-            experimental: false
-          -
             php: '8.2'
             experimental: false
           -
@@ -24,6 +21,12 @@ jobs:
           -
             php: '8.4'
             experimental: false
+          -
+            php: '8.5'
+            experimental: false
+          -
+            php: '8.6'
+            experimental: true
     runs-on: ubuntu-24.04
     steps:
       -
@@ -47,10 +50,10 @@ jobs:
         name: 'Checkout the source'
         uses: actions/checkout@v4
       -
-        name: 'Use PHP 8.3'
+        name: 'Use PHP 8.5'
         uses: shivammathur/setup-php@v2
         with:
-          php-version: '8.3'
+          php-version: '8.5'
       -
         name: 'Install Composer dependencies'
         run: |
@@ -65,9 +68,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '8.1'
-            experimental: false
-          -
             php: '8.2'
             experimental: false
           -
@@ -76,6 +76,12 @@ jobs:
           -
             php: '8.4'
             experimental: false
+          -
+            php: '8.5'
+            experimental: false
+          -
+            php: '8.6'
+            experimental: true
     runs-on: ubuntu-24.04
     steps:
       -
