@@ -71,7 +71,7 @@ final class Landline extends Base
         $shigaiList = $this->loadShigaiList(substr($number, 0, 2));
         return array_find(
             $shigaiList,
-            static fn(string $shigai): bool => $shigai === substr($number, 0, strlen($shigai)),
+            static fn (string $shigai): bool => $shigai === substr($number, 0, strlen($shigai)),
         ) ?? false;
     }
 
@@ -84,7 +84,7 @@ final class Landline extends Base
         // 長い順、同じ長さなら辞書順
         usort(
             $list,
-            static fn(string $lhs, string $rhs): int => (strlen($rhs) - strlen($lhs)) ?: strcmp($lhs, $rhs),
+            static fn (string $lhs, string $rhs): int => strlen($rhs) - strlen($lhs) ?: strcmp($lhs, $rhs),
         );
 
         return $list;
