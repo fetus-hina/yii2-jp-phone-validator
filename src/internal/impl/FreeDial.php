@@ -7,14 +7,19 @@
  * @since 1.2.0
  */
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jpphone\internal\impl;
+
+use Override;
 
 /**
  * FreeDial(0120-abc-def OR 0120-ab-cdef)
  */
-class FreeDial extends FreeDialLike
+final class FreeDial extends FreeDialLike
 {
-    protected function getFirstPart()
+    #[Override]
+    protected function getFirstPart(): string
     {
         return '0120';
     }

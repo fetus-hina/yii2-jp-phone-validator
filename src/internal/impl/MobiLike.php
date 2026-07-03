@@ -7,20 +7,32 @@
  * @since 1.0.0
  */
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jpphone\internal\impl;
+
+use Override;
+
+use function implode;
+use function in_array;
+use function preg_match;
+use function preg_replace;
+use function substr;
 
 /**
  * Mobile phone (090-abcd-efgh) like
  */
 abstract class MobiLike extends Base
 {
-    protected function isValidFormat($number)
+    #[Override]
+    protected function isValidFormat(string $number): bool
     {
         $firstPart = $this->getFirstPart();
         return !!preg_match('/^(?:' . implode('|', $firstPart) . ')(?:(?:-\d{4}-\d{4})|\d{8})$/', $number);
     }
 
-    protected function isAssignedNumber($number)
+    #[Override]
+    protected function isAssignedNumber(string $number): bool
     {
         $number = preg_replace('/[^0-9]+/', '', $number);
         $firstPart = substr($number, 0, 3);
@@ -28,5 +40,8 @@ abstract class MobiLike extends Base
         return !!in_array(substr($number, 3, 4), $prefixList, true);
     }
 
-    abstract protected function getFirstPart();
+    /**
+     * @return list<string>
+     */
+    abstract protected function getFirstPart(): array;
 }

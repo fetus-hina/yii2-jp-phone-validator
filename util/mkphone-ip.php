@@ -7,18 +7,18 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 define('PUT_BASE_DIR', __DIR__ . '/../data/phone/others');
 
 // 総務省の電話番号リストの在りか
 $excels = [
-    'https://www.soumu.go.jp/main_content/000697573.xlsx',  // 050
+    'https://www.soumu.go.jp/main_content/000697573.xlsx', // 050
 ];
 
 foreach ($excels as $url) {
     $spreadsheet = parseExcel(downloadExcel($url));
-    list($start, $data) = convertSheet($spreadsheet->getActiveSheet());
+    [$start, $data] = convertSheet($spreadsheet->getActiveSheet());
     saveData($start, $data);
 }
 
@@ -44,7 +44,7 @@ function parseExcel(string $binary): Spreadsheet
         $spreadsheet = $reader->load($tmppath);
         @unlink($tmppath);
         return $spreadsheet;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         @unlink($tmppath);
         throw $e;
     }

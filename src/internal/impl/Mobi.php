@@ -7,14 +7,22 @@
  * @since 1.0.0
  */
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jpphone\internal\impl;
+
+use Override;
 
 /**
  * Mobile phones (090-xxxx-xxxx, 080-, 070-, 060-)
  */
-class Mobi extends MobiLike
+final class Mobi extends MobiLike
 {
-    protected function getFirstPart()
+    /**
+     * @return list<string>
+     */
+    #[Override]
+    protected function getFirstPart(): array
     {
         return ['090', '080', '070', '060'];
     }

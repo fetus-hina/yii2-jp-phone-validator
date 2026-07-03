@@ -7,14 +7,19 @@
  * @since 1.0.0
  */
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jpphone\internal\impl;
+
+use Override;
 
 /**
  * NavDial(0570-abc-def OR 0570-ab-cdef)
  */
-class NavDial extends FreeDialLike
+final class NavDial extends FreeDialLike
 {
-    protected function getFirstPart()
+    #[Override]
+    protected function getFirstPart(): string
     {
         return '0570';
     }

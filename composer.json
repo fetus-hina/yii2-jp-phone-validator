@@ -21,10 +21,12 @@
     "require": {
         "php": ">= 8.2",
         "ext-pcre": "*",
+        "symfony/polyfill-php83": "^1.38.2",
         "yiisoft/yii2": "^2.0.55"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.52",
+        "jp3cki/coding-standard": "^2.0",
         "php-curl-class/php-curl-class": "^13.0.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
         "phpoffice/phpspreadsheet": "^5.8.0",
@@ -45,6 +47,7 @@
     },
     "config": {
         "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
             "ergebnis/composer-normalize": true,
             "yiisoft/yii2-composer": true
         },
@@ -53,6 +56,6 @@
         }
     },
     "extra": {
-        "bootstrap": "jp3cki\\yii2\\jpphone\\internal\\Bootstrap"
+        "bootstrap": "jp3cki\\yii2\\jpphone\\internal\\LibBootstrap"
     }
 }

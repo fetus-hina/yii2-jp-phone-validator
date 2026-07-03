@@ -7,14 +7,22 @@
  * @since 1.0.0
  */
 
+declare(strict_types=1);
+
 namespace jp3cki\yii2\jpphone\internal\impl;
+
+use Override;
 
 /**
  * IP phone 050-xxxx-xxxx
  */
-class Ip extends MobiLike
+final class Ip extends MobiLike
 {
-    protected function getFirstPart()
+    /**
+     * @return list<string>
+     */
+    #[Override]
+    protected function getFirstPart(): array
     {
         return ['050'];
     }

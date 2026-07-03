@@ -7,7 +7,7 @@ use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
 
-require_once(__DIR__ . '/../vendor/autoload.php');
+require_once __DIR__ . '/../vendor/autoload.php';
 
 ini_set('memory_limit', '512M');
 
@@ -15,15 +15,15 @@ define('PUT_BASE_DIR', __DIR__ . '/../data/phone/landline');
 
 // 総務省の電話番号リストの在りか
 $excels = [
-    'https://www.soumu.go.jp/main_content/000697543.xls',   // 01
-    'https://www.soumu.go.jp/main_content/000697544.xls',   // 02
-    'https://www.soumu.go.jp/main_content/000697545.xls',   // 03
-    'https://www.soumu.go.jp/main_content/000697546.xls',   // 04
-    'https://www.soumu.go.jp/main_content/000697548.xls',   // 05
-    'https://www.soumu.go.jp/main_content/000697549.xls',   // 06
-    'https://www.soumu.go.jp/main_content/000697550.xls',   // 07
-    'https://www.soumu.go.jp/main_content/000697551.xls',   // 08
-    'https://www.soumu.go.jp/main_content/000697552.xls',   // 09
+    'https://www.soumu.go.jp/main_content/000697543.xls', // 01
+    'https://www.soumu.go.jp/main_content/000697544.xls', // 02
+    'https://www.soumu.go.jp/main_content/000697545.xls', // 03
+    'https://www.soumu.go.jp/main_content/000697546.xls', // 04
+    'https://www.soumu.go.jp/main_content/000697548.xls', // 05
+    'https://www.soumu.go.jp/main_content/000697549.xls', // 06
+    'https://www.soumu.go.jp/main_content/000697550.xls', // 07
+    'https://www.soumu.go.jp/main_content/000697551.xls', // 08
+    'https://www.soumu.go.jp/main_content/000697552.xls', // 09
 ];
 
 foreach ($excels as $url) {
@@ -54,7 +54,7 @@ function parseExcel(string $binary): Spreadsheet
         $spreadsheet = $reader->load($tmppath);
         @unlink($tmppath);
         return $spreadsheet;
-    } catch (Exception $e) {
+    } catch (Throwable $e) {
         @unlink($tmppath);
         throw $e;
     }
@@ -90,14 +90,12 @@ function saveData(string $start2digit, array $data): void
         mkdir(dirname($filepath1), 0755, true);
     }
     $json = json_encode(array_map(
-        function (string $shigai): string {
-            return ltrim($shigai, '_');
-        },
-        array_keys($data)
+        fn (string $shigai): string => ltrim($shigai, '_'),
+        array_keys($data),
     ));
     file_put_contents($filepath1, gzencode($json, 9, FORCE_GZIP));
-    foreach ($data as $shigai_ => $shinaiList) {
-        $shigai = ltrim($shigai_, '_');
+    foreach ($data as $shigaiTmp => $shinaiList) {
+        $shigai = ltrim($shigaiTmp, '_');
         $filepath2 = PUT_BASE_DIR . '/' . $start2digit . '/' . $shigai . '.json.gz';
         if (!file_exists(dirname($filepath2))) {
             mkdir(dirname($filepath2), 0755, true);
