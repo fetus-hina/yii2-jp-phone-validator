@@ -17,7 +17,7 @@ use function file_exists;
 use function file_get_contents;
 use function is_array;
 use function json_decode;
-use function strpos;
+use function str_contains;
 
 abstract class Base extends BaseObject
 {
@@ -48,11 +48,11 @@ abstract class Base extends BaseObject
 
     protected function isValidHyphenStatus(string $number): bool
     {
-        if ($this->hyphen === false && strpos($number, '-') !== false) {
+        if ($this->hyphen === false && str_contains($number, '-')) {
             return false;
         }
 
-        return $this->hyphen !== true || strpos($number, '-') !== false;
+        return $this->hyphen !== true || str_contains($number, '-');
     }
 
     /**
