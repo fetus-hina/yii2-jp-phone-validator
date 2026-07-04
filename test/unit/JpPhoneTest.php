@@ -86,13 +86,13 @@ final class JpPhoneTest extends TestCase
             [false, Target::FLAG_FREE_DIAL, false, '0120-123-456'],
             [false, Target::FLAG_FREE_DIAL, false, '0120-12-3456'],
 
-            [true, Target::FLAG_FREE_ACCESS, null, '08009876543'],
-            [true, Target::FLAG_FREE_ACCESS, null, '0800-987-6543'],
-            [false, Target::FLAG_FREE_ACCESS, null, '0800-9876543'],
-            [false, Target::FLAG_FREE_ACCESS, true, '08009876543'],
-            [true, Target::FLAG_FREE_ACCESS, true, '0800-987-6543'],
-            [true, Target::FLAG_FREE_ACCESS, false, '08009876543'],
-            [false, Target::FLAG_FREE_ACCESS, false, '0800-987-6543'],
+            [true, Target::FLAG_FREE_ACCESS, null, '08009996543'],
+            [true, Target::FLAG_FREE_ACCESS, null, '0800-999-6543'],
+            [false, Target::FLAG_FREE_ACCESS, null, '0800-9996543'],
+            [false, Target::FLAG_FREE_ACCESS, true, '08009996543'],
+            [true, Target::FLAG_FREE_ACCESS, true, '0800-999-6543'],
+            [true, Target::FLAG_FREE_ACCESS, false, '08009996543'],
+            [false, Target::FLAG_FREE_ACCESS, false, '0800-999-6543'],
 
             [true, Target::FLAG_IP_PHONE, null, '05010091234'],
             [true, Target::FLAG_IP_PHONE, null, '050-1009-1234'],
@@ -191,7 +191,7 @@ final class JpPhoneTest extends TestCase
     {
         return [
             [Target::FLAG_FREE_DIAL, '0120123456'],
-            [Target::FLAG_FREE_ACCESS, '08009876543'],
+            [Target::FLAG_FREE_ACCESS, '08009996543'],
             [Target::FLAG_IP_PHONE, '05010091234'],
             [Target::FLAG_LANDLINE, '03-5253-5111'],
             [Target::FLAG_MOBILE, '09010091234'],

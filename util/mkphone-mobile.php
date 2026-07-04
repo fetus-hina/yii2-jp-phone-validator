@@ -35,6 +35,7 @@ function downloadExcel(string $url): string
     $lastError = null;
     for ($attempt = 1; $attempt <= $maxAttempts; ++$attempt) {
         $curl = new Curl();
+        $curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36');
         $curl->get($url);
         if (!$curl->error && $curl->httpStatusCode === 200) {
             return $curl->rawResponse;

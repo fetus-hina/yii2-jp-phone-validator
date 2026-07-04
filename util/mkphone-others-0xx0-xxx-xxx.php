@@ -14,8 +14,8 @@ define('PUT_BASE_DIR', __DIR__ . '/../data/phone/others');
 // 総務省の電話番号リストの在りか
 $excels = [
     'https://www.soumu.go.jp/main_content/000697577.xlsx', // 0120
-    'https://www.soumu.go.jp/main_content/000697579.xlsx', // 0800
-    'https://www.soumu.go.jp/main_content/000697583.xlsx', // 0570
+    'https://www.soumu.go.jp/main_content/001045206.xlsx', // 0800
+    'https://www.soumu.go.jp/main_content/001076964.xlsx', // 0570
 ];
 
 foreach ($excels as $url) {
@@ -27,12 +27,34 @@ foreach ($excels as $url) {
 function downloadExcel(string $url): string
 {
     echo "Downloading $url ...\n";
-    $curl = new Curl();
-    $curl->get($url);
-    if ($curl->error) {
-        throw new Exception('Could not download ' . $url);
+
+    // 総務省のサーバ (CDN + openresty) は一時的に 502 等を返すことがあるため、
+    // 指数バックオフでリトライする。
+    $maxAttempts = 15;
+    $lastError = null;
+    for ($attempt = 1; $attempt <= $maxAttempts; ++$attempt) {
+        $curl = new Curl();
+        $curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36');
+        $curl->get($url);
+        if (!$curl->error && $curl->httpStatusCode === 200) {
+            return $curl->rawResponse;
+        }
+
+        $lastError = sprintf(
+            'HTTP %d%s',
+            (int)$curl->httpStatusCode,
+            $curl->errorMessage ? ' (' . $curl->errorMessage . ')' : '',
+        );
+        $curl->close();
+
+        if ($attempt < $maxAttempts) {
+            $wait = min(2 ** ($attempt - 1), 15); // 1, 2, 4, 8, 15, 15, ... 秒 (上限15秒)
+            echo "  Attempt {$attempt} failed: {$lastError}. Retrying in {$wait}s...\n";
+            sleep($wait);
+        }
     }
-    return $curl->rawResponse;
+
+    throw new Exception("Could not download {$url}: {$lastError}");
 }
 
 function parseExcel(string $binary): Spreadsheet
