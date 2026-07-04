@@ -12,16 +12,16 @@ require_once __DIR__ . '/../vendor/autoload.php';
 define('PUT_BASE_DIR', __DIR__ . '/../data/phone/others');
 
 // 総務省の電話番号リストの在りか
+//
+// 020 は「Ｍ２Ｍ等専用番号（データ伝送携帯電話番号）」で、既存の携帯電話 (090 等) とは
+// 別区分として扱う。11桁 (020-CDE-FGHJK) と 14桁 (0200-DEFGH-JKLMN) の 2 種類があり、
+// 利用時は両者を同一区分として扱う。
+//
+// このうち 11桁側はデータ生成上 070/080/090 と全く同じ扱いにできるため mkphone-mobile.php
+// に統合している。本スクリプトは 14桁側 (0200) のデータのみを生成する。
+// 0200 に続く DEFGH の 5 桁を割当ブロックとして others/0200.json.gz に保存する。
 $excels = [
-    // 020 は「Ｍ２Ｍ等専用番号（データ伝送携帯電話番号）」の 11桁 (020-CDE-FGHJK)。
-    // 総務省データは 020-CDE 単位だが、070/080/090 と同様に 020-CDEF 単位で扱うため、
-    // convertSheet の 0〜9 付与により 4桁ブロック (others/020.json.gz) として出力される。
-    // (14桁 0200-DEFGH-JKLMN は別区分・別スクリプト mkphone-m2m.php で生成する)
-    'https://www.soumu.go.jp/main_content/001055867.xlsx', // 020
-    'https://www.soumu.go.jp/main_content/001019693.xlsx', // 060
-    'https://www.soumu.go.jp/main_content/001080768.xlsx', // 070
-    'https://www.soumu.go.jp/main_content/000697565.xlsx', // 080
-    'https://www.soumu.go.jp/main_content/000697567.xlsx', // 090
+    'https://www.soumu.go.jp/main_content/001080766.xlsx', // 0200 (14桁)
 ];
 
 foreach ($excels as $url) {
@@ -102,20 +102,18 @@ function convertSheet(Worksheet $sheet): array
             if (trim((string)$sheet->getCell($cell)->getValue()) !== '') {
                 $number = $prefix . (string)$x;
                 if ($key === null) {
-                    $key = substr($number, 0, 3); // 070, 080, 090
+                    $key = substr($number, 0, 4); // 0200
                 }
-                for ($z = 0; $z <= 9; ++$z) {
-                    $ret[] = substr($number, 3) . $z;
-                }
+                $ret[] = substr($number, 4);
             }
         }
     }
     return [$key, $ret];
 }
 
-function saveData(string $start3digit, array $data): void
+function saveData(string $startdigit, array $data): void
 {
-    $filepath = PUT_BASE_DIR . '/' . $start3digit . '.json.gz';
+    $filepath = PUT_BASE_DIR . '/' . $startdigit . '.json.gz';
     if (!file_exists(dirname($filepath))) {
         mkdir(dirname($filepath), 0755, true);
     }
