@@ -181,6 +181,29 @@ final class JpPhoneTest extends TestCase
             [true, Target::FLAG_NAV_DIAL, false, '0570000123'],
             [false, Target::FLAG_NAV_DIAL, false, '0570-000-123'],
             [false, Target::FLAG_NAV_DIAL, false, '0570-00-0123'],
+
+            // M2M・データ伝送携帯電話番号(020) 11桁
+            [true, Target::FLAG_M2M, null, '02010001234'],
+            [true, Target::FLAG_M2M, null, '020-1000-1234'],
+            [false, Target::FLAG_M2M, null, '020-100-01234'],
+            [false, Target::FLAG_M2M, null, '020-10001234'],
+            [false, Target::FLAG_M2M, true, '02010001234'],
+            [true, Target::FLAG_M2M, true, '020-1000-1234'],
+            [true, Target::FLAG_M2M, false, '02010001234'],
+            [false, Target::FLAG_M2M, false, '020-1000-1234'],
+            // 020-0… は 11桁側には割り当てられていない (14桁 0200 側)
+            [false, Target::FLAG_M2M, null, '02001231234'],
+            // M2M・データ伝送携帯電話番号(020) 14桁
+            [true, Target::FLAG_M2M, null, '02001000012345'],
+            [true, Target::FLAG_M2M, null, '0200-10000-12345'],
+            [false, Target::FLAG_M2M, null, '0200-1000012345'],
+            [false, Target::FLAG_M2M, null, '0200-100-0012345'],
+            [false, Target::FLAG_M2M, true, '02001000012345'],
+            [true, Target::FLAG_M2M, true, '0200-10000-12345'],
+            [true, Target::FLAG_M2M, false, '02001000012345'],
+            [false, Target::FLAG_M2M, false, '0200-10000-12345'],
+            // 未割当の 14桁ブロック
+            [false, Target::FLAG_M2M, null, '02009999912345'],
         ];
     }
 
@@ -199,6 +222,8 @@ final class JpPhoneTest extends TestCase
             [Target::FLAG_MOBILE, '07050191234'],
             [Target::FLAG_MOBILE, '06010001234'],
             [Target::FLAG_NAV_DIAL, '0570000123'],
+            [Target::FLAG_M2M, '02010001234'],
+            [Target::FLAG_M2M, '02001000012345'],
         ];
     }
 }

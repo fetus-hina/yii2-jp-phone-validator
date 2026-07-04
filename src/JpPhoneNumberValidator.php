@@ -17,6 +17,7 @@ use jp3cki\yii2\jpphone\internal\impl\FreeAccess;
 use jp3cki\yii2\jpphone\internal\impl\FreeDial;
 use jp3cki\yii2\jpphone\internal\impl\Ip;
 use jp3cki\yii2\jpphone\internal\impl\Landline;
+use jp3cki\yii2\jpphone\internal\impl\M2m;
 use jp3cki\yii2\jpphone\internal\impl\Mobi;
 use jp3cki\yii2\jpphone\internal\impl\NavDial;
 use yii\validators\Validator;
@@ -38,12 +39,15 @@ class JpPhoneNumberValidator extends Validator
     public const FLAG_FREE_ACCESS = 0x0010;
     /** ナビダイヤル(0570) */
     public const FLAG_NAV_DIAL = 0x0020;
+    // 0x0040, 0x0080 は v4 以前に別用途で使用していた実績があるため、事故防止のため欠番とする
+    /** M2M・データ伝送携帯電話番号(020) */
+    public const FLAG_M2M = 0x0100;
 
     /** 一般的な番号の組み合わせ */
     public const FLAG_CONSUMERS = 0x0007;
 
     /** すべての組み合わせ */
-    public const FLAG_ALL = 0x003f;
+    public const FLAG_ALL = 0x013f;
 
     /** @var int validとみなす電話番号の種類(FLAG_*の組み合わせ) */
     public int $types = self::FLAG_CONSUMERS;
@@ -99,6 +103,7 @@ class JpPhoneNumberValidator extends Validator
             self::FLAG_FREE_DIAL => FreeDial::class,
             self::FLAG_FREE_ACCESS => FreeAccess::class,
             self::FLAG_NAV_DIAL => NavDial::class,
+            self::FLAG_M2M => M2m::class,
             // 固定電話はコストが高いので最後に検査する
             self::FLAG_LANDLINE => Landline::class,
         ];
