@@ -44,6 +44,10 @@ jobs:
           echo "::group::Update data (freedial etc)"
           php util/mkphone-others-0xx0-xxx-xxx.php
           echo "::endgroup::"
+
+          echo "::group::Update data (M2M)"
+          php util/mkphone-m2m.php
+          echo "::endgroup::"
       -
         name: 'Check changed'
         run: |
