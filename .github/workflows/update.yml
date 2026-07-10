@@ -49,6 +49,11 @@ jobs:
           php util/mkphone-m2m.php
           echo "::endgroup::"
       -
+        # GITHUB_TOKEN で作成した PR は CI ワークフローを起動しないため、
+        # 壊れたデータで PR を作らないようここでテストする。
+        name: 'Verify the regenerated data'
+        run: vendor/bin/phpunit
+      -
         name: 'Check changed'
         run: |
           git add data/phone
