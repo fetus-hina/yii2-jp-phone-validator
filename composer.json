@@ -21,18 +21,18 @@
     "require": {
         "php": ">= 8.2",
         "ext-pcre": "*",
-        "symfony/polyfill-php83": "^1.38.2",
+        "symfony/polyfill-php83": "^1.41.0",
         "symfony/polyfill-php84": "^1.38.1",
-        "yiisoft/yii2": "^2.0.55"
+        "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
         "ergebnis/composer-normalize": "^2.52",
         "jp3cki/coding-standard": "^2.0",
         "php-curl-class/php-curl-class": "^13.0.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
-        "phpoffice/phpspreadsheet": "^5.8.0",
-        "phpunit/phpunit": ">=10.5.35",
-        "squizlabs/php_codesniffer": "^3.13.5"
+        "phpoffice/phpspreadsheet": "^5.9.0",
+        "phpunit/phpunit": "^11.5.56",
+        "squizlabs/php_codesniffer": "^3.13.6"
     },
     "repositories": [
         {
