@@ -20,7 +20,9 @@
     ],
     "require": {
         "php": ">= 8.2",
+        "ext-json": "*",
         "ext-pcre": "*",
+        "ext-zlib": "*",
         "symfony/polyfill-php83": "^1.41.0",
         "symfony/polyfill-php84": "^1.38.1",
         "yiisoft/yii2": "~2.0.55"
