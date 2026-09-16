@@ -19,7 +19,7 @@ $excels = [
     // (14桁 0200-DEFGH-JKLMN は別区分・別スクリプト mkphone-m2m.php で生成する)
     'https://www.soumu.go.jp/main_content/001055867.xlsx', // 020
     'https://www.soumu.go.jp/main_content/001019693.xlsx', // 060
-    'https://www.soumu.go.jp/main_content/001080768.xlsx', // 070
+    'https://www.soumu.go.jp/main_content/001090878.xlsx', // 070
     'https://www.soumu.go.jp/main_content/000697565.xlsx', // 080
     'https://www.soumu.go.jp/main_content/000697567.xlsx', // 090
 ];
