@@ -28,7 +28,7 @@
         "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
-        "ergebnis/composer-normalize": "^2.52",
+        "ergebnis/composer-normalize": "^2.53",
         "jp3cki/coding-standard": "^2.0",
         "php-curl-class/php-curl-class": "^13.0.0",
         "phpcompatibility/php-compatibility": "^9.3.5",
