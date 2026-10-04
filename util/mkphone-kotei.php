@@ -23,7 +23,7 @@ $excels = [
     'https://www.soumu.go.jp/main_content/000697549.xls', // 06
     'https://www.soumu.go.jp/main_content/000697550.xls', // 07
     'https://www.soumu.go.jp/main_content/000697551.xls', // 08
-    'https://www.soumu.go.jp/main_content/000697552.xls', // 09
+    'https://www.soumu.go.jp/main_content/001090880.xls', // 09
 ];
 
 foreach ($excels as $url) {
