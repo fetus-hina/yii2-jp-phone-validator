@@ -22,6 +22,8 @@ use jp3cki\yii2\jpphone\internal\impl\Mobi;
 use jp3cki\yii2\jpphone\internal\impl\NavDial;
 use yii\validators\Validator;
 
+use function array_any;
+
 /**
  * Validate Phone number (JAPAN spec)
  */
@@ -107,16 +109,10 @@ class JpPhoneNumberValidator extends Validator
             // 固定電話はコストが高いので最後に検査する
             self::FLAG_LANDLINE => Landline::class,
         ];
-        foreach ($classMap as $classFlag => $className) {
-            if (($this->types & $classFlag) === $classFlag) {
-                $impl = new $className();
-                $impl->hyphen = $this->hyphen;
-                if ($impl->validate($number)) {
-                    return true;
-                }
-            }
-        }
-
-        return false;
+        return array_any(
+            $classMap,
+            fn (string $className, int $classFlag): bool => ($this->types & $classFlag) === $classFlag &&
+                (new $className(['hyphen' => $this->hyphen]))->validate($number),
+        );
     }
 }
