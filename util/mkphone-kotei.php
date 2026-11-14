@@ -44,14 +44,18 @@ function downloadExcel(string $url): string
         $curl = new Curl();
         $curl->setUserAgent('Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/149.0.0.0 Safari/537.36');
         $curl->get($url);
-        if (!$curl->error && $curl->httpStatusCode === 200) {
-            return $curl->rawResponse;
+        // php-curl-class のプロパティは型宣言がないため、型を確認してから使う
+        $statusCode = $curl->httpStatusCode;
+        $response = $curl->rawResponse;
+        if (!$curl->error && $statusCode === 200 && is_string($response)) {
+            return $response;
         }
 
+        $errorMessage = $curl->errorMessage;
         $lastError = sprintf(
             'HTTP %d%s',
-            (int)$curl->httpStatusCode,
-            $curl->errorMessage ? ' (' . $curl->errorMessage . ')' : '',
+            is_int($statusCode) ? $statusCode : 0,
+            is_string($errorMessage) && $errorMessage !== '' ? ' (' . $errorMessage . ')' : '',
         );
         $curl->close();
 
@@ -82,6 +86,9 @@ function parseExcel(string $binary): Spreadsheet
     }
 }
 
+/**
+ * @return array{string, array<string, list<string>>}
+ */
 function convertSheet(Worksheet $sheet): array
 {
     echo "Converting...\n";
@@ -90,8 +97,8 @@ function convertSheet(Worksheet $sheet): array
     $rowCount = $sheet->getHighestRow();
     for ($y = 1; $y <= $rowCount; ++$y) {
         if ($sheet->getCell("F{$y}")->getValue() === '使用中') {
-            $shigai = $sheet->getCell("C{$y}")->getValue();
-            $shinai = $sheet->getCell("D{$y}")->getValue();
+            $shigai = $sheet->getCell("C{$y}")->getValueString();
+            $shinai = $sheet->getCell("D{$y}")->getValueString();
             if ($key === null) {
                 $key = substr($shigai, 0, 2);
             }
@@ -102,9 +109,16 @@ function convertSheet(Worksheet $sheet): array
             $ret["_{$shigai}"][] = $shinai;
         }
     }
+    if ($key === null) {
+        throw new Exception('No data found in the sheet');
+    }
+
     return [$key, $ret];
 }
 
+/**
+ * @param array<string, list<string>> $data
+ */
 function saveData(string $start2digit, array $data): void
 {
     $filepath1 = PUT_BASE_DIR . '/' . $start2digit . '.json.gz';
@@ -114,7 +128,7 @@ function saveData(string $start2digit, array $data): void
     $json = json_encode(array_map(
         fn (string $shigai): string => ltrim($shigai, '_'),
         array_keys($data),
-    ));
+    ), JSON_THROW_ON_ERROR);
     file_put_contents($filepath1, gzencode($json, 9, FORCE_GZIP));
     foreach ($data as $shigaiTmp => $shinaiList) {
         $shigai = ltrim($shigaiTmp, '_');
@@ -123,7 +137,7 @@ function saveData(string $start2digit, array $data): void
             mkdir(dirname($filepath2), 0755, true);
         }
         sort($shinaiList);
-        $json = json_encode($shinaiList);
+        $json = json_encode($shinaiList, JSON_THROW_ON_ERROR);
         file_put_contents($filepath2, gzencode($json, 9, FORCE_GZIP));
     }
 }
