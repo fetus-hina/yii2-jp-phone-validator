@@ -32,7 +32,8 @@
         "php-curl-class/php-curl-class": "^13.0.2",
         "phpoffice/phpspreadsheet": "^5.11.0",
         "phpunit/phpunit": "^12.5.44",
-        "squizlabs/php_codesniffer": "^3.13.6"
+        "squizlabs/php_codesniffer": "^3.13.6",
+        "mspirkov/yii2-phpstan": "^0.17.0"
     },
     "repositories": [
         {
