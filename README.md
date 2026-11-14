@@ -23,7 +23,7 @@ yii2-jp-phone-validator
 使い方
 ------
 
-### JpPhoneValidator ###
+### JpPhoneNumberValidator ###
 
 このバリデータは入力が日本の電話番号らしい文字列であることを検証します。
 
@@ -40,7 +40,7 @@ declare(strict_types=1);
 namespace app\models;
 
 use Override;
-use jp3cki\yii2\jpphone\JpPhoneValidator;
+use jp3cki\yii2\jpphone\JpPhoneNumberValidator;
 use yii\base\Model;
 
 final class YourCustomForm extends Model
@@ -54,8 +54,8 @@ final class YourCustomForm extends Model
     public function rules()
     {
         return [
-            [['value'], JpPhoneValidator::class,
-                'types' => JpPhoneValidator::FLAG_CONSUMERS, // 意味は後述
+            [['value'], JpPhoneNumberValidator::class,
+                'types' => JpPhoneNumberValidator::FLAG_CONSUMERS, // 意味は後述
                 'hyphen' => null, // 意味は後述
             ],
         ];
@@ -98,8 +98,8 @@ use jp3cki\yii2\jpphone\HyphenMode;
 
 // ...
 
-[['value'], JpPhoneValidator::class,
-    'types' => JpPhoneValidator::FLAG_CONSUMERS,
+[['value'], JpPhoneNumberValidator::class,
+    'types' => JpPhoneNumberValidator::FLAG_CONSUMERS,
     'hyphen' => HyphenMode::Required, // 'hyphen' => true と同じ
 ],
 ```
