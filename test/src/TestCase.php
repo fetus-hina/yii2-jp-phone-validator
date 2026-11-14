@@ -7,6 +7,7 @@ namespace jp3cki\yii2\jpphone\test;
 use Override;
 use Yii;
 use jp3cki\yii2\jpphone\internal\LibBootstrap;
+use yii\base\NotSupportedException;
 use yii\console\Application;
 use yii\helpers\ArrayHelper;
 
