@@ -81,17 +81,6 @@ class JpPhoneNumberValidator extends Validator
      * @inheritdoc
      */
     #[Override]
-    public function validateAttribute($model, $attribute)
-    {
-        if (!$this->isValid($model->$attribute)) {
-            $this->addError($model, $attribute, $this->message);
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    #[Override]
     protected function validateValue($value)
     {
         if (!$this->isValid($value)) {
