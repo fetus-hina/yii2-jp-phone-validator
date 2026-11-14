@@ -45,7 +45,11 @@
     ],
     "autoload": {
         "psr-4": {
-            "jp3cki\\yii2\\jpphone\\": "src",
+            "jp3cki\\yii2\\jpphone\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
             "jp3cki\\yii2\\jpphone\\test\\": "test/src"
         }
     },
