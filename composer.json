@@ -24,8 +24,6 @@
         "ext-pcre": "*",
         "ext-zlib": "*",
         "symfony/polyfill-php84": "^1.43.0",
-        "symfony/polyfill-php85": "^1.43.0",
-        "symfony/polyfill-php86": "^1.43.0",
         "yiisoft/yii2": "~2.0.55"
     },
     "require-dev": {
