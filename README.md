@@ -10,7 +10,7 @@ yii2-jp-phone-validator
 動作環境
 --------
 
-- PHP 8.2 以上
+- PHP 8.3 以上
 - Yii framework 2.0.x
 
 インストール
@@ -23,7 +23,7 @@ yii2-jp-phone-validator
 使い方
 ------
 
-### JpPhoneValidator ###
+### JpPhoneNumberValidator ###
 
 このバリデータは入力が日本の電話番号らしい文字列であることを検証します。
 
@@ -40,7 +40,7 @@ declare(strict_types=1);
 namespace app\models;
 
 use Override;
-use jp3cki\yii2\jpphone\JpPhoneValidator;
+use jp3cki\yii2\jpphone\JpPhoneNumberValidator;
 use yii\base\Model;
 
 final class YourCustomForm extends Model
@@ -54,8 +54,8 @@ final class YourCustomForm extends Model
     public function rules()
     {
         return [
-            [['value'], JpPhoneValidator::class,
-                'types' => JpPhoneValidator::FLAG_CONSUMERS, // 意味は後述
+            [['value'], JpPhoneNumberValidator::class,
+                'types' => JpPhoneNumberValidator::FLAG_CONSUMERS, // 意味は後述
                 'hyphen' => null, // 意味は後述
             ],
         ];
@@ -64,6 +64,7 @@ final class YourCustomForm extends Model
 ```
 
 `types`: 許容する電話番号の種類を設定します。複数の種類を受け入れる場合は bit-or `|` で接続します。デフォルトは `FLAG_CONSUMERS` です。
+`0` や `FLAG_*` 以外のビットを含む値を設定した場合は `yii\base\InvalidConfigException` が発生します。
 
   * `FLAG_LANDLINE`: 固定電話の番号を受け入れます。
   * `FLAG_MOBILE`: `090` `080` `070` `060` の携帯電話・PHSを受け入れます（番号ポータビリティ等の都合により、電話会社を識別したりPHSを識別したりはできません）。
@@ -85,6 +86,23 @@ final class YourCustomForm extends Model
   * `null`: ハイフンの有無を気にしません（ハイフンが記入されている場合は正しい位置にハイフンがある必要があります）。
   * `true`: ハイフンを必須とします。（正しい位置にハイフンがある必要があります）
   * `false`: ハイフンを許容しません。（数字のみの羅列である必要があります）
+
+`hyphen` には、enum `jp3cki\yii2\jpphone\HyphenMode` を使ってより分かりやすく指定することもできます。
+
+  * `HyphenMode::Optional`: `null` と同じです。
+  * `HyphenMode::Required`: `true` と同じです。
+  * `HyphenMode::Forbidden`: `false` と同じです。
+
+```php
+use jp3cki\yii2\jpphone\HyphenMode;
+
+// ...
+
+[['value'], JpPhoneNumberValidator::class,
+    'types' => JpPhoneNumberValidator::FLAG_CONSUMERS,
+    'hyphen' => HyphenMode::Required, // 'hyphen' => true と同じ
+],
+```
 
 
 ライセンス
@@ -118,6 +136,14 @@ SOFTWARE.
 
 非互換の更新
 ------------
+
+  - v5.0 → v6.0
+    - PHPの要求バージョン 8.3 に引き上げました。
+    - 定数 `FLAG_*` を型付きクラス定数 (`int`) に変更しました。`JpPhoneNumberValidator` を継承して `FLAG_*` を再定義している場合は、`public const int FLAG_... = ...;` のように型を明示する必要があります。型を明示しない再定義や `int` 以外の値での再定義は、クラスの読み込み時にエラーになります。
+    - 文字列以外の値（`int`, `float`, `bool`, `null`, 配列など）を検証した場合、これまでは `TypeError` が発生していましたが、検証エラー（不正な電話番号）として扱うようになりました。数値型の属性に電話番号を格納している場合は、文字列に変換してから検証してください。
+    - `types` に `0` や `FLAG_*` 以外のビットを含む値（v4 以前の `0x0040`, `0x0080` を含む）を設定した場合、これまでは黙って無視していましたが、`yii\base\InvalidConfigException` を発生させるようになりました。
+    - テスト用の名前空間 `jp3cki\yii2\jpphone\test` を `autoload` から `autoload-dev` に移動しました。ライブラリ利用時には読み込まれなくなります。
+    - プロパティ `hyphen` の型を `bool|null` から `HyphenMode|bool|null` に変更しました。`JpPhoneNumberValidator` を継承して `hyphen` を再宣言している場合は、型を `HyphenMode|bool|null` に合わせる必要があります（合わせない場合はクラスの読み込み時にエラーになります）。
 
   - v4.0 → v5.0
     - PHPの要求バージョン 8.2 に引き上げました。

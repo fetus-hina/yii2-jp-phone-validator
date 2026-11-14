@@ -6,9 +6,11 @@ namespace jp3cki\yii2\jpphone\unittest;
 
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
+use jp3cki\yii2\jpphone\HyphenMode;
 use jp3cki\yii2\jpphone\JpPhoneNumberValidator as Target;
 use jp3cki\yii2\jpphone\test\TestCase;
 use yii\base\DynamicModel;
+use yii\base\InvalidConfigException;
 
 final class JpPhoneTest extends TestCase
 {
@@ -36,6 +38,45 @@ final class JpPhoneTest extends TestCase
             [[['value'], Target::class, 'types' => $types, 'hyphen' => $hyphen]],
         );
         $this->assertEquals($expect, !$o->hasErrors());
+    }
+
+    #[DataProvider('numberProvider')]
+    public function testAdHocWithHyphenMode(bool $expect, int $types, bool|null $hyphen, string $value): void
+    {
+        $o = new Target();
+        $o->types = $types;
+        $o->hyphen = self::toHyphenMode($hyphen);
+        $this->assertEquals($expect, $o->validate($value));
+    }
+
+    #[DataProvider('numberProvider')]
+    public function testModelWithHyphenMode(bool $expect, int $types, bool|null $hyphen, string $value): void
+    {
+        $o = DynamicModel::validateData(
+            ['value' => $value],
+            [[['value'], Target::class, 'types' => $types, 'hyphen' => self::toHyphenMode($hyphen)]],
+        );
+        $this->assertEquals($expect, !$o->hasErrors());
+    }
+
+    public function testHyphenPropertyIsNotNormalized(): void
+    {
+        $o = new Target(['hyphen' => true]);
+        $o->validate('0352535111');
+        $this->assertTrue($o->hyphen);
+
+        $o = new Target(['hyphen' => HyphenMode::Required]);
+        $o->validate('0352535111');
+        $this->assertSame(HyphenMode::Required, $o->hyphen);
+    }
+
+    private static function toHyphenMode(bool|null $hyphen): HyphenMode
+    {
+        return match ($hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+        };
     }
 
     #[DataProvider('flagProvider')]
@@ -66,6 +107,69 @@ final class JpPhoneTest extends TestCase
             [[['value'], Target::class, 'types' => Target::FLAG_ALL & (~$type), 'hyphen' => null]],
         );
         $this->assertTrue($o->hasErrors());
+    }
+
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringAdHoc(mixed $value): void
+    {
+        $o = new Target();
+        $o->types = Target::FLAG_ALL;
+        $this->assertFalse($o->validate($value));
+    }
+
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringModel(mixed $value): void
+    {
+        $o = DynamicModel::validateData(
+            ['value' => $value],
+            [[['value'], Target::class, 'types' => Target::FLAG_ALL, 'skipOnEmpty' => false]],
+        );
+        $this->assertTrue($o->hasErrors());
+    }
+
+    #[DataProvider('invalidTypesProvider')]
+    public function testInvalidTypesOnInit(int $types): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        new Target(['types' => $types]);
+    }
+
+    #[DataProvider('invalidTypesProvider')]
+    public function testInvalidTypesOnValidate(int $types): void
+    {
+        $o = new Target();
+        $o->types = $types;
+        $this->expectException(InvalidConfigException::class);
+        $o->validate('0352535111');
+    }
+
+    /**
+     * @return array<string, array{int}>
+     */
+    public static function invalidTypesProvider(): array
+    {
+        return [
+            'zero' => [0],
+            'reserved 0x0040' => [0x0040],
+            'reserved 0x0080' => [0x0080],
+            'v4 FLAG_ALL' => [0x00ff],
+            'unknown bit' => [0x0200],
+            'negative' => [-1],
+        ];
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function nonStringProvider(): array
+    {
+        return [
+            'int' => [312345678],
+            'float' => [312345678.0],
+            'null' => [null],
+            'bool' => [true],
+            'array' => [['0312345678']],
+        ];
     }
 
     /**

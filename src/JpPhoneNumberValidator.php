@@ -20,7 +20,12 @@ use jp3cki\yii2\jpphone\internal\impl\Landline;
 use jp3cki\yii2\jpphone\internal\impl\M2m;
 use jp3cki\yii2\jpphone\internal\impl\Mobi;
 use jp3cki\yii2\jpphone\internal\impl\NavDial;
+use yii\base\InvalidConfigException;
 use yii\validators\Validator;
+
+use function array_any;
+use function is_string;
+use function sprintf;
 
 /**
  * Validate Phone number (JAPAN spec)
@@ -28,36 +33,36 @@ use yii\validators\Validator;
 class JpPhoneNumberValidator extends Validator
 {
     /** 固定電話 */
-    public const FLAG_LANDLINE = 0x0001;
+    public const int FLAG_LANDLINE = 0x0001;
     /** 携帯電話 */
-    public const FLAG_MOBILE = 0x0002;
+    public const int FLAG_MOBILE = 0x0002;
     /** IP電話(050) */
-    public const FLAG_IP_PHONE = 0x0004;
+    public const int FLAG_IP_PHONE = 0x0004;
     /** フリーダイヤル(0120) */
-    public const FLAG_FREE_DIAL = 0x0008;
+    public const int FLAG_FREE_DIAL = 0x0008;
     /** フリーアクセス(0800) */
-    public const FLAG_FREE_ACCESS = 0x0010;
+    public const int FLAG_FREE_ACCESS = 0x0010;
     /** ナビダイヤル(0570) */
-    public const FLAG_NAV_DIAL = 0x0020;
+    public const int FLAG_NAV_DIAL = 0x0020;
     // 0x0040, 0x0080 は v4 以前に別用途で使用していた実績があるため、事故防止のため欠番とする
     /** M2M・データ伝送携帯電話番号(020) */
-    public const FLAG_M2M = 0x0100;
+    public const int FLAG_M2M = 0x0100;
 
     /** 一般的な番号の組み合わせ */
-    public const FLAG_CONSUMERS = 0x0007;
+    public const int FLAG_CONSUMERS = 0x0007;
 
     /** すべての組み合わせ */
-    public const FLAG_ALL = 0x013f;
+    public const int FLAG_ALL = 0x013f;
 
-    /** @var int validとみなす電話番号の種類(FLAG_*の組み合わせ) */
+    /** @var int-mask-of<self::FLAG_*> validとみなす電話番号の種類(FLAG_*の組み合わせ) */
     public int $types = self::FLAG_CONSUMERS;
 
     /**
      * ハイフンの許可
      *
-     * @var bool|null null=気にしない, true=要求, false=許可しない
+     * @var HyphenMode|bool|null HyphenMode または null=気にしない, true=要求, false=許可しない
      */
-    public bool|null $hyphen = null;
+    public HyphenMode|bool|null $hyphen = null;
 
     /**
      * @inheritdoc
@@ -66,19 +71,9 @@ class JpPhoneNumberValidator extends Validator
     public function init()
     {
         parent::init();
+        $this->assertValidTypes();
         if ($this->message === null) {
             $this->message = Yii::t('jp3ckiJpPhone', '{attribute} is not a valid phone number.');
-        }
-    }
-
-    /**
-     * @inheritdoc
-     */
-    #[Override]
-    public function validateAttribute($model, $attribute)
-    {
-        if (!$this->isValid($model->$attribute)) {
-            $this->addError($model, $attribute, $this->message);
         }
     }
 
@@ -95,8 +90,33 @@ class JpPhoneNumberValidator extends Validator
         return null;
     }
 
+    /**
+     * $types が FLAG_* の組み合わせとして正しいかを検査する
+     *
+     * @throws InvalidConfigException
+     */
+    private function assertValidTypes(): void
+    {
+        if ($this->types === 0 || ($this->types & ~self::FLAG_ALL) !== 0) {
+            throw new InvalidConfigException(
+                sprintf('The "types" property must be a combination of FLAG_* constants, 0x%04x given.', $this->types),
+            );
+        }
+    }
+
+    /**
+     * @throws InvalidConfigException
+     */
     private function isValid(mixed $number): bool
     {
+        // init() 後に $types が変更されている可能性があるため、検証時にも検査する
+        $this->assertValidTypes();
+
+        // 電話番号は先頭の 0 を含むため、文字列以外は常に不正とみなす
+        if (!is_string($number)) {
+            return false;
+        }
+
         $classMap = [
             self::FLAG_MOBILE => Mobi::class,
             self::FLAG_IP_PHONE => Ip::class,
@@ -107,16 +127,21 @@ class JpPhoneNumberValidator extends Validator
             // 固定電話はコストが高いので最後に検査する
             self::FLAG_LANDLINE => Landline::class,
         ];
-        foreach ($classMap as $classFlag => $className) {
-            if (($this->types & $classFlag) === $classFlag) {
-                $impl = new $className();
-                $impl->hyphen = $this->hyphen;
-                if ($impl->validate($number)) {
-                    return true;
-                }
-            }
-        }
+        $hyphen = $this->getHyphenMode();
+        return array_any(
+            $classMap,
+            fn (string $className, int $classFlag): bool => ($this->types & $classFlag) === $classFlag &&
+                (new $className(['hyphen' => $hyphen]))->validate($number),
+        );
+    }
 
-        return false;
+    private function getHyphenMode(): HyphenMode
+    {
+        return match ($this->hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+            default => $this->hyphen,
+        };
     }
 }

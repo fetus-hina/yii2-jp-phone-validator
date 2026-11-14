@@ -11,6 +11,7 @@ declare(strict_types=1);
 
 namespace jp3cki\yii2\jpphone\internal\impl;
 
+use jp3cki\yii2\jpphone\HyphenMode;
 use yii\base\BaseObject;
 
 use function file_exists;
@@ -23,12 +24,8 @@ abstract class Base extends BaseObject
 {
     /**
      * Hyphen accept/require mode
-     *
-     * null: accept hypen, but not required.
-     * true: require hypen
-     * false: not accept hypen
      */
-    public bool|null $hyphen = null;
+    public HyphenMode $hyphen = HyphenMode::Optional;
 
     /**
      * Validate phone number
@@ -48,11 +45,11 @@ abstract class Base extends BaseObject
 
     protected function isValidHyphenStatus(string $number): bool
     {
-        if ($this->hyphen === false && str_contains($number, '-')) {
-            return false;
-        }
-
-        return $this->hyphen !== true || str_contains($number, '-');
+        return match ($this->hyphen) {
+            HyphenMode::Optional => true,
+            HyphenMode::Required => str_contains($number, '-'),
+            HyphenMode::Forbidden => !str_contains($number, '-'),
+        };
     }
 
     /**
