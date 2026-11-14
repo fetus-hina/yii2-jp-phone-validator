@@ -23,6 +23,7 @@ use jp3cki\yii2\jpphone\internal\impl\NavDial;
 use yii\validators\Validator;
 
 use function array_any;
+use function is_string;
 
 /**
  * Validate Phone number (JAPAN spec)
@@ -99,6 +100,11 @@ class JpPhoneNumberValidator extends Validator
 
     private function isValid(mixed $number): bool
     {
+        // 電話番号は先頭の 0 を含むため、文字列以外は常に不正とみなす
+        if (!is_string($number)) {
+            return false;
+        }
+
         $classMap = [
             self::FLAG_MOBILE => Mobi::class,
             self::FLAG_IP_PHONE => Ip::class,

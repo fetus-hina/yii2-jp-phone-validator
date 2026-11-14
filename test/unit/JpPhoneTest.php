@@ -68,6 +68,38 @@ final class JpPhoneTest extends TestCase
         $this->assertTrue($o->hasErrors());
     }
 
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringAdHoc(mixed $value): void
+    {
+        $o = new Target();
+        $o->types = Target::FLAG_ALL;
+        $this->assertFalse($o->validate($value));
+    }
+
+    #[DataProvider('nonStringProvider')]
+    public function testNonStringModel(mixed $value): void
+    {
+        $o = DynamicModel::validateData(
+            ['value' => $value],
+            [[['value'], Target::class, 'types' => Target::FLAG_ALL, 'skipOnEmpty' => false]],
+        );
+        $this->assertTrue($o->hasErrors());
+    }
+
+    /**
+     * @return array<string, array{mixed}>
+     */
+    public static function nonStringProvider(): array
+    {
+        return [
+            'int' => [312345678],
+            'float' => [312345678.0],
+            'null' => [null],
+            'bool' => [true],
+            'array' => [['0312345678']],
+        ];
+    }
+
     /**
      * @return list<array{bool, int, bool|null, string}>
      */
