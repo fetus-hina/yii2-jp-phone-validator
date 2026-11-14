@@ -20,10 +20,12 @@ use jp3cki\yii2\jpphone\internal\impl\Landline;
 use jp3cki\yii2\jpphone\internal\impl\M2m;
 use jp3cki\yii2\jpphone\internal\impl\Mobi;
 use jp3cki\yii2\jpphone\internal\impl\NavDial;
+use yii\base\InvalidConfigException;
 use yii\validators\Validator;
 
 use function array_any;
 use function is_string;
+use function sprintf;
 
 /**
  * Validate Phone number (JAPAN spec)
@@ -69,6 +71,7 @@ class JpPhoneNumberValidator extends Validator
     public function init()
     {
         parent::init();
+        $this->assertValidTypes();
         if ($this->message === null) {
             $this->message = Yii::t('jp3ckiJpPhone', '{attribute} is not a valid phone number.');
         }
@@ -98,8 +101,28 @@ class JpPhoneNumberValidator extends Validator
         return null;
     }
 
+    /**
+     * $types が FLAG_* の組み合わせとして正しいかを検査する
+     *
+     * @throws InvalidConfigException
+     */
+    private function assertValidTypes(): void
+    {
+        if ($this->types === 0 || ($this->types & ~self::FLAG_ALL) !== 0) {
+            throw new InvalidConfigException(
+                sprintf('The "types" property must be a combination of FLAG_* constants, 0x%04x given.', $this->types),
+            );
+        }
+    }
+
+    /**
+     * @throws InvalidConfigException
+     */
     private function isValid(mixed $number): bool
     {
+        // init() 後に $types が変更されている可能性があるため、検証時にも検査する
+        $this->assertValidTypes();
+
         // 電話番号は先頭の 0 を含むため、文字列以外は常に不正とみなす
         if (!is_string($number)) {
             return false;

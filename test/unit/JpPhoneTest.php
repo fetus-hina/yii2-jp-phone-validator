@@ -9,6 +9,7 @@ use PHPUnit\Framework\Attributes\DataProvider;
 use jp3cki\yii2\jpphone\JpPhoneNumberValidator as Target;
 use jp3cki\yii2\jpphone\test\TestCase;
 use yii\base\DynamicModel;
+use yii\base\InvalidConfigException;
 
 final class JpPhoneTest extends TestCase
 {
@@ -84,6 +85,37 @@ final class JpPhoneTest extends TestCase
             [[['value'], Target::class, 'types' => Target::FLAG_ALL, 'skipOnEmpty' => false]],
         );
         $this->assertTrue($o->hasErrors());
+    }
+
+    #[DataProvider('invalidTypesProvider')]
+    public function testInvalidTypesOnInit(int $types): void
+    {
+        $this->expectException(InvalidConfigException::class);
+        new Target(['types' => $types]);
+    }
+
+    #[DataProvider('invalidTypesProvider')]
+    public function testInvalidTypesOnValidate(int $types): void
+    {
+        $o = new Target();
+        $o->types = $types;
+        $this->expectException(InvalidConfigException::class);
+        $o->validate('0352535111');
+    }
+
+    /**
+     * @return array<string, array{int}>
+     */
+    public static function invalidTypesProvider(): array
+    {
+        return [
+            'zero' => [0],
+            'reserved 0x0040' => [0x0040],
+            'reserved 0x0080' => [0x0080],
+            'v4 FLAG_ALL' => [0x00ff],
+            'unknown bit' => [0x0200],
+            'negative' => [-1],
+        ];
     }
 
     /**
