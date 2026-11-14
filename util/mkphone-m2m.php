@@ -3,6 +3,7 @@
 declare(strict_types=1);
 
 use Curl\Curl;
+use PhpOffice\PhpSpreadsheet\Cell\Coordinate;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use PhpOffice\PhpSpreadsheet\Worksheet\Worksheet;
@@ -105,7 +106,8 @@ function convertSheet(Worksheet $sheet): array
     for (; $y <= $rowCount; ++$y) {
         $prefix = trim($sheet->getCell("A{$y}")->getValueString());
         for ($x = 0; $x <= 9; ++$x) {
-            $cell = chr(ord('B') + $x) . $y;
+            // B 列 (2) から K 列 (11) に 0〜9 が並ぶ
+            $cell = Coordinate::stringFromColumnIndex(2 + $x) . $y;
             if (trim($sheet->getCell($cell)->getValueString()) !== '') {
                 $number = $prefix . (string)$x;
                 if ($key === null) {
