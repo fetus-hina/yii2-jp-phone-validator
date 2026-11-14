@@ -13,9 +13,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '8.2'
-            experimental: false
-          -
             php: '8.3'
             experimental: false
           -
@@ -26,7 +23,7 @@ jobs:
             experimental: false
           -
             php: '8.6'
-            experimental: true
+            experimental: false
     runs-on: ubuntu-24.04
     steps:
       -
@@ -68,9 +65,6 @@ jobs:
       matrix:
         envs:
           -
-            php: '8.2'
-            experimental: false
-          -
             php: '8.3'
             experimental: false
           -
@@ -81,7 +75,7 @@ jobs:
             experimental: false
           -
             php: '8.6'
-            experimental: true
+            experimental: false
     runs-on: ubuntu-24.04
     steps:
       -
