@@ -66,6 +66,7 @@ class JpPhoneNumberValidator extends Validator
 
     /**
      * @inheritdoc
+     * @return void
      */
     #[Override]
     public function init()
@@ -79,6 +80,7 @@ class JpPhoneNumberValidator extends Validator
 
     /**
      * @inheritdoc
+     * @return array{string|null, array<string, mixed>}|null
      */
     #[Override]
     protected function validateValue($value)

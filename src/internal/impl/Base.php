@@ -14,9 +14,12 @@ namespace jp3cki\yii2\jpphone\internal\impl;
 use jp3cki\yii2\jpphone\HyphenMode;
 use yii\base\BaseObject;
 
+use function array_filter;
+use function array_values;
 use function file_exists;
 use function file_get_contents;
 use function is_array;
+use function is_string;
 use function json_decode;
 use function str_contains;
 
@@ -62,7 +65,12 @@ abstract class Base extends BaseObject
             return [];
         }
 
-        $ret = @json_decode(file_get_contents('compress.zlib://' . $realpath));
-        return is_array($ret) ? $ret : [];
+        $json = file_get_contents('compress.zlib://' . $realpath);
+        if ($json === false) {
+            return [];
+        }
+
+        $ret = json_decode($json);
+        return is_array($ret) ? array_values(array_filter($ret, is_string(...))) : [];
     }
 }

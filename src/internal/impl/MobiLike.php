@@ -16,7 +16,7 @@ use Override;
 use function implode;
 use function in_array;
 use function preg_match;
-use function preg_replace;
+use function str_replace;
 use function substr;
 
 /**
@@ -34,7 +34,8 @@ abstract class MobiLike extends Base
     #[Override]
     protected function isAssignedNumber(string $number): bool
     {
-        $number = preg_replace('/[^0-9]+/', '', $number);
+        // isValidFormat() により数字とハイフンのみであることは保証済み
+        $number = str_replace('-', '', $number);
         $firstPart = substr($number, 0, 3);
         $prefixList = $this->loadDataFile('others/' . $firstPart . '.json.gz');
         return !!in_array(substr($number, 3, 4), $prefixList, true);

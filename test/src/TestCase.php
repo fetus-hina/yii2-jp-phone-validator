@@ -38,7 +38,10 @@ abstract class TestCase extends \PHPUnit\Framework\TestCase
         gc_collect_cycles();
     }
 
-    // phpcs:ignore SlevomatCodingStandard.TypeHints.ParameterTypeHint.MissingTraversableTypeHintSpecification
+    /**
+     * @param array<string, mixed> $config
+     * @param class-string<Application> $appClass
+     */
     protected function mockApplication(
         string $language = 'en-US',
         array $config = [],

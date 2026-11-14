@@ -21,6 +21,9 @@ final class JpPhoneTest extends TestCase
         $this->mockApplication();
     }
 
+    /**
+     * @param int-mask-of<Target::FLAG_*> $types
+     */
     #[DataProvider('numberProvider')]
     public function testAdHoc(bool $expect, int $types, bool|null $hyphen, string $value): void
     {
@@ -30,6 +33,9 @@ final class JpPhoneTest extends TestCase
         $this->assertEquals($expect, $o->validate($value));
     }
 
+    /**
+     * @param int-mask-of<Target::FLAG_*> $types
+     */
     #[DataProvider('numberProvider')]
     public function testModel(bool $expect, int $types, bool|null $hyphen, string $value): void
     {
@@ -40,6 +46,9 @@ final class JpPhoneTest extends TestCase
         $this->assertEquals($expect, !$o->hasErrors());
     }
 
+    /**
+     * @param int-mask-of<Target::FLAG_*> $types
+     */
     #[DataProvider('numberProvider')]
     public function testAdHocWithHyphenMode(bool $expect, int $types, bool|null $hyphen, string $value): void
     {
@@ -49,6 +58,9 @@ final class JpPhoneTest extends TestCase
         $this->assertEquals($expect, $o->validate($value));
     }
 
+    /**
+     * @param int-mask-of<Target::FLAG_*> $types
+     */
     #[DataProvider('numberProvider')]
     public function testModelWithHyphenMode(bool $expect, int $types, bool|null $hyphen, string $value): void
     {
@@ -79,8 +91,12 @@ final class JpPhoneTest extends TestCase
         };
     }
 
+    /**
+     * @param int-mask-of<Target::FLAG_*> $type
+     * @param int-mask-of<Target::FLAG_*> $otherTypes
+     */
     #[DataProvider('flagProvider')]
-    public function testFlagAdHoc(int $type, string $value): void
+    public function testFlagAdHoc(int $type, int $otherTypes, string $value): void
     {
         $o = new Target();
         $o->types = $type;
@@ -88,13 +104,17 @@ final class JpPhoneTest extends TestCase
         $this->assertTrue($o->validate($value));
 
         $o = new Target();
-        $o->types = Target::FLAG_ALL & (~$type);
+        $o->types = $otherTypes;
         $o->hyphen = null;
         $this->assertFalse($o->validate($value));
     }
 
+    /**
+     * @param int-mask-of<Target::FLAG_*> $type
+     * @param int-mask-of<Target::FLAG_*> $otherTypes
+     */
     #[DataProvider('flagProvider')]
-    public function testFlagModel(int $type, string $value): void
+    public function testFlagModel(int $type, int $otherTypes, string $value): void
     {
         $o = DynamicModel::validateData(
             ['value' => $value],
@@ -104,7 +124,7 @@ final class JpPhoneTest extends TestCase
 
         $o = DynamicModel::validateData(
             ['value' => $value],
-            [[['value'], Target::class, 'types' => Target::FLAG_ALL & (~$type), 'hyphen' => null]],
+            [[['value'], Target::class, 'types' => $otherTypes, 'hyphen' => null]],
         );
         $this->assertTrue($o->hasErrors());
     }
@@ -131,6 +151,7 @@ final class JpPhoneTest extends TestCase
     public function testInvalidTypesOnInit(int $types): void
     {
         $this->expectException(InvalidConfigException::class);
+        // @phpstan-ignore mspirkovYii2.baseObjectInstantiationValidation (意図的に不正な値を渡す)
         new Target(['types' => $types]);
     }
 
@@ -138,6 +159,7 @@ final class JpPhoneTest extends TestCase
     public function testInvalidTypesOnValidate(int $types): void
     {
         $o = new Target();
+        // @phpstan-ignore assign.propertyType (意図的に不正な値を渡す)
         $o->types = $types;
         $this->expectException(InvalidConfigException::class);
         $o->validate('0352535111');
@@ -173,7 +195,7 @@ final class JpPhoneTest extends TestCase
     }
 
     /**
-     * @return list<array{bool, int, bool|null, string}>
+     * @return list<array{bool, int-mask-of<Target::FLAG_*>, bool|null, string}>
      */
     public static function numberProvider(): array
     {
@@ -312,22 +334,22 @@ final class JpPhoneTest extends TestCase
     }
 
     /**
-     * @return list<array{int, string}>
+     * @return list<array{int-mask-of<Target::FLAG_*>, int-mask-of<Target::FLAG_*>, string}>
      */
     public static function flagProvider(): array
     {
         return [
-            [Target::FLAG_FREE_DIAL, '0120123456'],
-            [Target::FLAG_FREE_ACCESS, '08009996543'],
-            [Target::FLAG_IP_PHONE, '05010091234'],
-            [Target::FLAG_LANDLINE, '03-5253-5111'],
-            [Target::FLAG_MOBILE, '09010091234'],
-            [Target::FLAG_MOBILE, '08010091234'],
-            [Target::FLAG_MOBILE, '07050191234'],
-            [Target::FLAG_MOBILE, '06010001234'],
-            [Target::FLAG_NAV_DIAL, '0570000123'],
-            [Target::FLAG_M2M, '02010001234'],
-            [Target::FLAG_M2M, '02001000012345'],
+            [Target::FLAG_FREE_DIAL, Target::FLAG_ALL & ~Target::FLAG_FREE_DIAL, '0120123456'],
+            [Target::FLAG_FREE_ACCESS, Target::FLAG_ALL & ~Target::FLAG_FREE_ACCESS, '08009996543'],
+            [Target::FLAG_IP_PHONE, Target::FLAG_ALL & ~Target::FLAG_IP_PHONE, '05010091234'],
+            [Target::FLAG_LANDLINE, Target::FLAG_ALL & ~Target::FLAG_LANDLINE, '03-5253-5111'],
+            [Target::FLAG_MOBILE, Target::FLAG_ALL & ~Target::FLAG_MOBILE, '09010091234'],
+            [Target::FLAG_MOBILE, Target::FLAG_ALL & ~Target::FLAG_MOBILE, '08010091234'],
+            [Target::FLAG_MOBILE, Target::FLAG_ALL & ~Target::FLAG_MOBILE, '07050191234'],
+            [Target::FLAG_MOBILE, Target::FLAG_ALL & ~Target::FLAG_MOBILE, '06010001234'],
+            [Target::FLAG_NAV_DIAL, Target::FLAG_ALL & ~Target::FLAG_NAV_DIAL, '0570000123'],
+            [Target::FLAG_M2M, Target::FLAG_ALL & ~Target::FLAG_M2M, '02010001234'],
+            [Target::FLAG_M2M, Target::FLAG_ALL & ~Target::FLAG_M2M, '02001000012345'],
         ];
     }
 }

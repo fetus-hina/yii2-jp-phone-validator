@@ -9,6 +9,7 @@ test: vendor check-style
 check-style:
 	find . \( -type d \( -name '.git' -or -name 'vendor' -or -name 'runtime' \) -prune \) -or \( -type f -name '*.php' -print \) | xargs -n 1 php -l
 	vendor/bin/phpcs
+	vendor/bin/phpstan analyse --no-progress --memory-limit=1G
 
 .PHONY: fix-style
 fix-style:

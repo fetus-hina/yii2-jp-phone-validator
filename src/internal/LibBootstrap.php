@@ -22,7 +22,7 @@ final class LibBootstrap implements BootstrapInterface
      * @inheritdoc
      */
     #[Override]
-    public function bootstrap($app)
+    public function bootstrap($app): void
     {
         Yii::setAlias('@jp3ckiJpPhoneMessages', __DIR__ . '/../../messages');
         $i18n = $app->i18n;

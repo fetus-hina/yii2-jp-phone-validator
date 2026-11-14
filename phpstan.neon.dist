@@ -1,0 +1,26 @@
+includes:
+    - vendor/mspirkov/yii2-phpstan/extension.neon
+
+parameters:
+    level: max
+    paths:
+        - src
+        - test
+        - util
+    bootstrapFiles:
+        - vendor/yiisoft/yii2/Yii.php
+
+    # 利用者が PHPDoc の型どおりの値を渡すとは限らないため、
+    # 実行時の検査を「常に真/偽」とみなさない
+    treatPhpDocTypesAsCertain: false
+
+    mspirkovYii2:
+        noForbiddenYiiAppProperties:
+            allowedProperties:
+                - id
+                - name
+                - charset
+                - language
+                - timeZone
+                # LibBootstrap でメッセージソースを登録するために使用
+                - i18n

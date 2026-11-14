@@ -15,7 +15,7 @@ use Override;
 
 use function in_array;
 use function preg_match;
-use function preg_replace;
+use function str_replace;
 use function strlen;
 use function substr;
 
@@ -34,7 +34,8 @@ abstract class FreeDialLike extends Base
     #[Override]
     protected function isAssignedNumber(string $number): bool
     {
-        $number = preg_replace('/[^0-9]+/', '', $number);
+        // isValidFormat() により数字とハイフンのみであることは保証済み
+        $number = str_replace('-', '', $number);
         $firstPart = $this->getFirstPart();
         $prefixList = $this->loadDataFile('others/' . $firstPart . '.json.gz');
         // 0120ABCDEFのABC部分が割り当て済みかどうかを確認する
