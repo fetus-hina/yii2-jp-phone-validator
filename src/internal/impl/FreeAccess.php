@@ -15,7 +15,7 @@ use Override;
 
 use function in_array;
 use function preg_match;
-use function preg_replace;
+use function str_replace;
 use function substr;
 
 /**
@@ -32,7 +32,8 @@ final class FreeAccess extends Base
     #[Override]
     protected function isAssignedNumber(string $number): bool
     {
-        $number = preg_replace('/[^0-9]+/', '', $number);
+        // isValidFormat() により数字とハイフンのみであることは保証済み
+        $number = str_replace('-', '', $number);
         $prefixList = $this->loadDataFile('others/0800.json.gz');
         // 0800ABCDEFGのABC部分が割り当て済みかどうかを確認する
         return (bool)in_array(substr($number, 4, 3), $prefixList, true);
