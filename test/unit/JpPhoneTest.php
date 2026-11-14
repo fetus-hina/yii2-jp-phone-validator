@@ -6,6 +6,7 @@ namespace jp3cki\yii2\jpphone\unittest;
 
 use Override;
 use PHPUnit\Framework\Attributes\DataProvider;
+use jp3cki\yii2\jpphone\HyphenMode;
 use jp3cki\yii2\jpphone\JpPhoneNumberValidator as Target;
 use jp3cki\yii2\jpphone\test\TestCase;
 use yii\base\DynamicModel;
@@ -37,6 +38,45 @@ final class JpPhoneTest extends TestCase
             [[['value'], Target::class, 'types' => $types, 'hyphen' => $hyphen]],
         );
         $this->assertEquals($expect, !$o->hasErrors());
+    }
+
+    #[DataProvider('numberProvider')]
+    public function testAdHocWithHyphenMode(bool $expect, int $types, bool|null $hyphen, string $value): void
+    {
+        $o = new Target();
+        $o->types = $types;
+        $o->hyphen = self::toHyphenMode($hyphen);
+        $this->assertEquals($expect, $o->validate($value));
+    }
+
+    #[DataProvider('numberProvider')]
+    public function testModelWithHyphenMode(bool $expect, int $types, bool|null $hyphen, string $value): void
+    {
+        $o = DynamicModel::validateData(
+            ['value' => $value],
+            [[['value'], Target::class, 'types' => $types, 'hyphen' => self::toHyphenMode($hyphen)]],
+        );
+        $this->assertEquals($expect, !$o->hasErrors());
+    }
+
+    public function testHyphenPropertyIsNotNormalized(): void
+    {
+        $o = new Target(['hyphen' => true]);
+        $o->validate('0352535111');
+        $this->assertTrue($o->hyphen);
+
+        $o = new Target(['hyphen' => HyphenMode::Required]);
+        $o->validate('0352535111');
+        $this->assertSame(HyphenMode::Required, $o->hyphen);
+    }
+
+    private static function toHyphenMode(bool|null $hyphen): HyphenMode
+    {
+        return match ($hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+        };
     }
 
     #[DataProvider('flagProvider')]

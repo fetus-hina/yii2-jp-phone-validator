@@ -60,9 +60,9 @@ class JpPhoneNumberValidator extends Validator
     /**
      * ハイフンの許可
      *
-     * @var bool|null null=気にしない, true=要求, false=許可しない
+     * @var HyphenMode|bool|null HyphenMode または null=気にしない, true=要求, false=許可しない
      */
-    public bool|null $hyphen = null;
+    public HyphenMode|bool|null $hyphen = null;
 
     /**
      * @inheritdoc
@@ -127,10 +127,21 @@ class JpPhoneNumberValidator extends Validator
             // 固定電話はコストが高いので最後に検査する
             self::FLAG_LANDLINE => Landline::class,
         ];
+        $hyphen = $this->getHyphenMode();
         return array_any(
             $classMap,
             fn (string $className, int $classFlag): bool => ($this->types & $classFlag) === $classFlag &&
-                (new $className(['hyphen' => $this->hyphen]))->validate($number),
+                (new $className(['hyphen' => $hyphen]))->validate($number),
         );
+    }
+
+    private function getHyphenMode(): HyphenMode
+    {
+        return match ($this->hyphen) {
+            null => HyphenMode::Optional,
+            true => HyphenMode::Required,
+            false => HyphenMode::Forbidden,
+            default => $this->hyphen,
+        };
     }
 }
